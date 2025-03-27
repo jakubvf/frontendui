@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "classnames": "^2.5.1",
-    "react-bootstrap": "^2.10.6"
+    "react-bootstrap": "^2.10.6",
+    "@rollup/rollup-darwin-arm64": "4.22.4"
   }
 }

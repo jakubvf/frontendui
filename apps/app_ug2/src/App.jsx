@@ -1,7 +1,13 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { AppCanvas } from '@hrbolek/uoisfrontend-gql-shared'
-import { AppRouter } from './AppRouter';
+// import { AppRouter } from './AppRouter';
+
+const User = ({name}) => {
+  return (
+    <div>{name}</div>
+  )
+}
 
 export const App = () => {
     return (
@@ -16,10 +22,10 @@ export const App = () => {
                     </Navbar.Collapse>
                 </Container>
             </Navbar> */}
-            
-            <AppRouter />
-        </AppCanvas>    
+
+        <User name={"Skibidi"}/>
+            {/* <AppRouter /> */}
+        </AppCanvas>
         // {/* </Container> */}
     )
 }
-
