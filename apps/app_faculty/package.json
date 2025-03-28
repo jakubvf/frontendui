@@ -1,7 +1,7 @@
 {
-  "name": "@hrbolek/app_ug2",
+  "name": "@jakubvf/uoisapp-faculty",
   "private": true,
-  "version": "0.5.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -22,7 +22,8 @@
     "bootstrap": "^5.3.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router": "^7.0.2"
+    "react-router": "^7.0.2",
+    "@jakubvf/uoisfrontend-faculty": "*"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
