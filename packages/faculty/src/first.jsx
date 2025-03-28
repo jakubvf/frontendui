@@ -15,4 +15,29 @@ export const FirstEntity = () => {
   if (loading) return <p>Loading</p>;
 
   return <div>User: <div>{JSON.stringify(dispatchResult)}</div></div>;
-}
+};
+
+const readProgramPageAsyncAction = createAsyncGraphQLAction(`{
+    programPage {
+      __typename
+      id
+      name
+    }
+  }`);
+
+export const Program = () => {
+  const { loading, error, entity, dispatchResult } = useAsyncAction(readProgramPageAsyncAction, {});
+
+  if (loading) return <p>Loading</p>;
+
+  console.log(dispatchResult);
+
+  return (
+    <div>
+      {dispatchResult.data.programPage.map(program => (
+        <div key={program.id}>{program.name}</div>
+      ))}
+    </div>
+  );
+
+};
