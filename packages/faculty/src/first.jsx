@@ -19,23 +19,23 @@ export const FirstEntity = () => {
   return <div>User: <div>{JSON.stringify(dispatchResult)}</div></div>;
 };
 
-const readProgramPageAsyncAction = createAsyncGraphQLAction(`{
-    programPage {
+const readAdmissionPageAsyncAction = createAsyncGraphQLAction(`{
+    admissionPage {
       __typename
       id
       name
     }
   }`);
 
-export const Program = () => {
-  const { loading, error, entity, dispatchResult } = useAsyncAction(readProgramPageAsyncAction, {});
+export const Admission = () => {
+  const { loading, error, entity, dispatchResult } = useAsyncAction(readAdmissionPageAsyncAction, {});
 
   if (loading) return <p>Loading</p>;
 
   return (
     <div>
-      {dispatchResult.data.programPage.map((program, i) => (
-        <FacultyMediumCard key={i} faculty={{ id: program.id, name: program.name }}>Skibidi</FacultyMediumCard>
+      {dispatchResult.data.admissionPage.map((admission, i) => (
+        <FacultyMediumCard key={i} faculty={{ id: admission.id, name: admission.name }} />
       ))}
     </div>
   );

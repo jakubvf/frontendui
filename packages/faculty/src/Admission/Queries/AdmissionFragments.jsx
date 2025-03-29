@@ -25,3 +25,4 @@ fragment AdmissionLarge on AdmissionGQLModel {
   ...AdmissionMedium
 }
 `, AdmissionMediumFragment)
+  

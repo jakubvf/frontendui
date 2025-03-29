@@ -14,6 +14,6 @@ import { AdmissionPage } from "./AdmissionPage"
  * @property {JSX.Element} element - The React element (component) to render, in this case, <AdmissionPage />.
  */
 export const AdmissionRouterSegment = {
-    path: `${AdmissionURI}:id`,
+    path: `/${AdmissionURI}/:id`,
     element: <AdmissionPage />,
 }

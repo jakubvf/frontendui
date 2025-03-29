@@ -3,18 +3,18 @@ import {
       RouterProvider
 } from "react-router-dom";
 
-import { Program } from '@jakubvf/uoisfrontend-faculty';
+import { AdmissionMediumCard, AdmissionRouterSegment } from '@hrbolek/uoisfrontend-admissions';
 
 export const Routes = [
   {
     path: "/",
-    element: <Program/>
+    element: <AdmissionMediumCard admission={{
+      id: "995a0dd2-3697-4e40-ae68-5bc3d9fe8c81", name: "Nevim"
+    }} />
   },
-  {
-    path: "/faculty",
-    element: <h1>Hello world!</h1>,
-  }
+  AdmissionRouterSegment,
 ]
+console.log(Routes)
 
 // const router = createBrowserRouter(Routes, {basename: "/ug"});
 const router = createBrowserRouter(Routes);

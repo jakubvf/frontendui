@@ -1,6 +1,0 @@
-export * from './FacultyInsertAsyncAction'
-export * from './FacultyReadAsyncAction'
-export * from './FacultyReadPageAsyncAction'
-export * from './FacultyUpdateAsyncAction'
-export * from './FacultyDeleteAsyncAction'
-export * from './FacultyFragments'
