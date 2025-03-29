@@ -2,11 +2,18 @@ import {
       createBrowserRouter,
       RouterProvider
 } from "react-router-dom";
-  
-import { UserRouterSegment } from "@hrbolek/uoisfrontend-ug2";
+
+import { Program } from '@jakubvf/uoisfrontend-faculty';
 
 export const Routes = [
-    UserRouterSegment
+  {
+    path: "/",
+    element: <Program/>
+  },
+  {
+    path: "/faculty",
+    element: <h1>Hello world!</h1>,
+  }
 ]
 
 // const router = createBrowserRouter(Routes, {basename: "/ug"});
@@ -14,4 +21,3 @@ const router = createBrowserRouter(Routes);
 // const router = createProxyBrowseRouter(Routes, {basename: "/ug"});
 
 export const AppRouter = () => <RouterProvider router={router} />
-

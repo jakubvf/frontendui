@@ -1,5 +1,7 @@
 import { createAsyncGraphQLAction, useAsyncAction } from '@hrbolek/uoisfrontend-gql-shared'
 
+import { FacultyMediumCard } from './Faculty/Components/FacultyMediumCard';
+
 const readUserPageAsyncAction = createAsyncGraphQLAction(`{
     userPage {
       __typename
@@ -30,12 +32,10 @@ export const Program = () => {
 
   if (loading) return <p>Loading</p>;
 
-  console.log(dispatchResult);
-
   return (
     <div>
-      {dispatchResult.data.programPage.map(program => (
-        <div key={program.id}>{program.name}</div>
+      {dispatchResult.data.programPage.map((program, i) => (
+        <FacultyMediumCard key={i} faculty={{ id: program.id, name: program.name }}>Skibidi</FacultyMediumCard>
       ))}
     </div>
   );
