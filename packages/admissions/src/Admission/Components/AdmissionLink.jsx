@@ -1,6 +1,6 @@
 import { ProxyLink } from "@hrbolek/uoisfrontend-shared"
 
-export const AdmissionURI = '/admission/admission/view/';
+export const AdmissionURI = '/admissions/admission/view/';
 
 /**
  * A React component that renders a `ProxyLink` to an "admission" entity's view page.
@@ -19,7 +19,7 @@ export const AdmissionURI = '/admission/admission/view/';
  * @example
  * // Example usage with a sample admission entity:
  * const admissionEntity = { id: 123, name: "Example Admission Entity" };
- * 
+ *
  * <AdmissionLink admission={admissionEntity} />
  * // Renders: <ProxyLink to="/admission/admission/view/123">Example Admission Entity</ProxyLink>
  *

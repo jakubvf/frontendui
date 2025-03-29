@@ -3,18 +3,32 @@ import {
       RouterProvider
 } from "react-router-dom";
 
-import { AdmissionMediumCard, AdmissionRouterSegment } from '@hrbolek/uoisfrontend-admissions';
+import { useAsyncAction } from '@hrbolek/uoisfrontend-gql-shared';
+import { AdmissionMediumCard, AdmissionRouterSegment, AdmissionReadPageAsyncAction } from '@hrbolek/uoisfrontend-admissions';
+
+const Admissions = () => {
+   const { loading, error, entity, dispatchResult } = useAsyncAction(AdmissionReadPageAsyncAction, {});
+
+   if (loading) return <p>Loading</p>;
+
+  console.log(dispatchResult);
+
+  return (
+    <div>
+      {dispatchResult.data.result.map((admission, i) => (
+        <AdmissionMediumCard key={i} admission={{ id: admission.id, name: i }} />
+      ))}
+    </div>
+   );
+};
 
 export const Routes = [
   {
-    path: "/",
-    element: <AdmissionMediumCard admission={{
-      id: "995a0dd2-3697-4e40-ae68-5bc3d9fe8c81", name: "Nevim"
-    }} />
+    path: "/admissions",
+    element: <Admissions />,
   },
   AdmissionRouterSegment,
 ]
-console.log(Routes)
 
 // const router = createBrowserRouter(Routes, {basename: "/ug"});
 const router = createBrowserRouter(Routes);
