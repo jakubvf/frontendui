@@ -1,9 +1,7 @@
-# Zobrazení z pohledu fakulty (stránka fakulty)
+# Zobrazení uchazeče správním orgánem
 
-- Vypsaná přijímací řízení na fakultě (podle programů uskutečňovaných fakultou)
-
-- Otevření přijímacího řízení
-
-- Zobrazení agregovaných dat (počet přihlášek do programů a jejich stav)
-
-- Zobrazení časové osy (kalendář událostí vztažených k přijímacím řízením)
+- [ ] Podané přihlášky uchazeče a jejich stav
+- [ ] Platby uchazeče
+- [ ] Výsledky uchazeče
+- [ ] Doložené dokumenty
+- [ ] Splnění stanovených termínů
