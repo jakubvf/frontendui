@@ -1,1 +1,1 @@
-export * from './Applicant'
+export * from './User'

@@ -15,4 +15,5 @@ GQL modely:
 Tasky:
 - [x] Fake data uchazece
 - [x] Zobrazit uchazeče
-- [ ]
+- [x] GQL query
+- [x] injectnout `studies` `startdate` `enddate`

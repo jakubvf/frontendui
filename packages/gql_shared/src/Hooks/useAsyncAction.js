@@ -71,7 +71,7 @@ export const useAsyncAction = (AsyncAction, queryVariables, params = { deferred:
     const { deferred, network } = params;
     // const [id] = useState(queryVariables?.id)
     // console.log("useAsyncAction", id, result)
-    
+
     const fetchData = useCallback(async (fetchParams) => {
         // console.log("useAsyncAction.fetchData with", fetchParams)
         const mergedParams = fetchParams
@@ -89,15 +89,15 @@ export const useAsyncAction = (AsyncAction, queryVariables, params = { deferred:
             await fetchPromise.current;
         }
 
-        lastMergedParams.current = mergedParams;     
+        lastMergedParams.current = mergedParams;
 
         // 1) First setState call: check if we're already loading, otherwise set loading = true.
         setState(prev => {
             if (prev.loading) {
                 // Already loading, so bail out. We'll reflect this in `canFetch`.
                 return prev; // No changes to state
-            }           
-            
+            }
+
             // Return the new state with loading = true.
             return {
                 ...prev,
@@ -131,7 +131,7 @@ export const useAsyncAction = (AsyncAction, queryVariables, params = { deferred:
                     await dispatch(reader)
                 }
                 // const itemFromStore = items[id]; // Refetch the item from the store
-    
+
                 // console.log("useAction.itemFromStore.id", id)
                 // console.log("useAction.itemFromStore.mergedParams", mergedParams)
                 // console.log("useAction.itemFromStore", itemFromStore, result, actionResult)
@@ -154,7 +154,7 @@ export const useAsyncAction = (AsyncAction, queryVariables, params = { deferred:
         } catch {
             return null
         }
-        // return 
+        // return
         // console.log("useAsyncAction fetch end while state", state)
         // console.warn("trying to call fetch while still loading")
     }, [AsyncAction]);
@@ -206,5 +206,3 @@ export const useAsyncAction = (AsyncAction, queryVariables, params = { deferred:
         entity: result,
     };
 };
-
-

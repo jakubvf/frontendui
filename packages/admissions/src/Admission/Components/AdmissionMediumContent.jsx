@@ -1,3 +1,6 @@
+import { createAsyncGraphQLAction, useAsyncAction } from '@hrbolek/uoisfrontend-gql-shared'
+
+
 /**
  * A component that displays medium-level content for an admission entity.
  *
@@ -16,17 +19,18 @@
  * @example
  * // Example usage:
  * const admissionEntity = { id: 123, name: "Sample Entity" };
- * 
+ *
  * <AdmissionMediumContent admission={admissionEntity}>
  *   <p>Additional information about the entity.</p>
  * </AdmissionMediumContent>
  */
 export const AdmissionMediumContent = ({admission, children}) => {
+  const { loading, error, entity, dispatchResult } = useAsyncAction(readAdmissionPageAsyncAction, {});
+
     return (
         <>
-            AdmissionMediumContent <br />
-            {JSON.stringify(admission)}
-            {children}
+
+          {children}
         </>
     )
 }

@@ -4,11 +4,11 @@ import {
 } from "react-router-dom";
 
 import { useAsyncAction } from '@hrbolek/uoisfrontend-gql-shared';
-import { ApplicantRouterSegment } from '@jakubvf/uoisfrontend-applicant_view';
+import { UserRouterSegment } from '@jakubvf/uoisfrontend-applicant_view';
 
 
 export const Routes = [
-  ApplicantRouterSegment,
+  UserRouterSegment,
 ]
 
 // const router = createBrowserRouter(Routes, {basename: "/ug"});
