@@ -8,17 +8,6 @@ fragment UserLink on UserGQLModel {
   lastchange
   name
   fullname
-  startdate
-  enddate
-  email
-  studies {
-    program {
-      name
-    }
-    payments {
-      amount
-    }
-  }
 }
 `)
 
@@ -26,6 +15,15 @@ fragment UserLink on UserGQLModel {
 export const UserMediumFragment = createQueryStrLazy(
 `
 fragment UserMedium on UserGQLModel {
+  startdate
+  enddate
+  email
+  studies {
+    program {
+      name
+    }
+  }
+
   ...UserLink
 }
 `, UserLinkFragment)
@@ -33,6 +31,12 @@ fragment UserMedium on UserGQLModel {
 export const UserLargeFragment = createQueryStrLazy(
 `
 fragment UserLarge on UserGQLModel {
+  studies {
+    payments {
+      amount
+    }
+  }
+
   ...UserMedium
 }
 `, UserMediumFragment)
