@@ -142,7 +142,6 @@ const UserPageContentLazy = ({ user }) => {
 
     if (entity !== undefined) {
         entity = {
-            ...entity,
             startdate: "01.09.2023",
             enddate: "30.06.2024",
             studies: [
@@ -200,6 +199,7 @@ const UserPageContentLazy = ({ user }) => {
                     result: 45
                 }
             ],
+            ...entity,
         };
     }
 
