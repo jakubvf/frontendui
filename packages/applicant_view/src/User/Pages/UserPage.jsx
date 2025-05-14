@@ -10,6 +10,12 @@ import { Accordion, Card, Badge, ListGroup } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import { Check } from "react-bootstrap-icons"
 
+import { DocumentButton } from "../../Document/Components/DocumentCUDButton"
+
+const handleDocumentSubmit = (data) => {
+    console.log("Document submitted:", data)
+}
+
 /**
  * A page content component for displaying detailed information about an user entity.
  *
@@ -77,7 +83,13 @@ const UserPageContent = ({ user }) => {
                     </ListGroup.Item>
                 ))}
             </ListGroup>
-
+            <DocumentButton
+                operation="C"
+                document={{ name: "New Item", name_en: "New Item EN" }}
+                onDone={(data) => console.log("Document inserted:", data)}
+            >
+                Insert
+            </DocumentButton>
             <Card.Title className="mt-3">Výsledky přijmacího řízení</Card.Title>
             <ListGroup variant="flush" className="mt-2">
                 {user.evaluations.map((evaluation, index) => {
@@ -142,6 +154,7 @@ const UserPageContentLazy = ({ user }) => {
 
     if (entity !== undefined) {
         entity = {
+            ...entity,
             startdate: "01.09.2023",
             enddate: "30.06.2024",
             studies: [
@@ -199,7 +212,6 @@ const UserPageContentLazy = ({ user }) => {
                     result: 45
                 }
             ],
-            ...entity,
         };
     }
 
