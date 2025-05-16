@@ -3,9 +3,9 @@ import { PaymentLargeFragment } from "./PaymentFragments";
 
 const PaymentUpdateMutation = createQueryStrLazy(
 `
-mutation PaymentUpdateMutation($id: UUID!, $lastchange: DateTime!, $name: String, $name_en: String) {
+mutation PaymentUpdateMutation($id: UUID!, $amount: Float, $lastchange: DateTime!) {
   result: paymentUpdate(
-    payment: {id: $id, lastchange: $lastchange, name: $name, nameEn: $name_en}
+    payment: {id: $id, amount: $amount, lastchange: $lastchange}
   ) {
     ... on PaymentGQLModelUpdateError {
       failed

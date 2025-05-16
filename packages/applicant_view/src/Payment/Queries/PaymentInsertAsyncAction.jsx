@@ -3,9 +3,9 @@ import { PaymentLargeFragment } from "./PaymentFragments";
 
 const PaymentInsertMutation = createQueryStrLazy(
 `
-mutation PaymentInsertMutation($id: UUID, $name: String, $name_en: String) {
+mutation PaymentInsertMutation($id: UUID, $amount: Float) {
   result: paymentInsert(
-    payment: {id: $id, name: $name, nameEn: $name_en}
+    payment: {id: $id, amount: $amount}
   ) {
     ... on InsertError {
       failed

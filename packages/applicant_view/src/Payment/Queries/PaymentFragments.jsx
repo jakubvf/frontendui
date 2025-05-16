@@ -6,8 +6,6 @@ fragment PaymentLink on PaymentGQLModel {
   __typename
   id
   lastchange
-  name
-  nameEn
 }
 `)
 
@@ -15,6 +13,7 @@ fragment PaymentLink on PaymentGQLModel {
 export const PaymentMediumFragment = createQueryStrLazy(
 `
 fragment PaymentMedium on PaymentGQLModel {
+  amount
   ...PaymentLink
 }
 `, PaymentLinkFragment)

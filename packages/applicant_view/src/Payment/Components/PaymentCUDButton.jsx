@@ -87,7 +87,7 @@ export const PaymentButton = ({ operation, children, payment, onDone = () => {},
             loadingMsg: "Odstraňuji payment",
             renderContent: () => (
                 <h2>
-                    {payment?.name} ({payment?.name_en})
+                    {payment?.amount}
                 </h2>
             ),
         },
@@ -101,7 +101,26 @@ export const PaymentButton = ({ operation, children, payment, onDone = () => {},
 
     const { error, loading, fetch, entity } = useAsyncAction(asyncAction, payment, { deferred: true });
     const handleClick = async (params = {}) => {
-        const fetchParams = { ...payment, ...params };
+        const processedParams = { ...params };
+
+        // Ensure amount is a number if it's provided as a string from the form
+        if (processedParams.hasOwnProperty('amount') && typeof processedParams.amount === 'string') {
+            const numericAmount = parseFloat(processedParams.amount);
+            if (isFinite(numericAmount)) {
+                processedParams.amount = numericAmount;
+            }
+            // If numericAmount is not finite (e.g., parseFloat("") -> NaN, parseFloat("abc") -> NaN),
+            // processedParams.amount will remain the original string.
+            // The backend GraphQL resolver will then handle the invalid input,
+            // which is appropriate for unparseable values.
+            // This change specifically addresses the case where a valid number string (e.g., "400") needs conversion.
+        }
+
+        const fetchParams = { 
+            ...payment, 
+            ...processedParams, 
+            lastchange: (operation === 'U' && payment?.lastchange) ? payment.lastchange : new Date().toISOString() 
+        };
         const freshPayment = await fetch(fetchParams);
         onDone(freshPayment); // Pass the result to the external callback
     };

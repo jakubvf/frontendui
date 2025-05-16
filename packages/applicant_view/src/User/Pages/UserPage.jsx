@@ -9,11 +9,20 @@ import { UserPageNavbar } from "./UserPageNavbar"
 import { Accordion, Card, Badge, ListGroup } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import { Check } from "react-bootstrap-icons"
+import Button from 'react-bootstrap/Button';
 
 import { DocumentButton } from "../../Document/Components/DocumentCUDButton"
+import { PaymentButton } from "../../Payment/Components"
 
 const handleDocumentSubmit = (data) => {
     console.log("Document submitted:", data)
+}
+
+const handlePaymentUpdate = (data, fetch) => {
+    console.log("Payment update submitted:", data)
+    if (fetch) {
+        fetch();
+    }
 }
 
 /**
@@ -27,6 +36,7 @@ const handleDocumentSubmit = (data) => {
  * @param {Object} props.user - The object representing the user entity.
  * @param {string|number} props.user.id - The unique identifier for the user entity.
  * @param {string} props.user.name - The name or label of the user entity.
+ * @param {function} props.fetch - Function to refetch user data.
  *
  * @returns {JSX.Element} A JSX element rendering the page content for an user entity.
  *
@@ -36,53 +46,47 @@ const handleDocumentSubmit = (data) => {
  * 
  * <UserPageContent user={userEntity} />
  */
-const UserPageContent = ({ user }) => {
+const UserPageContent = ({ user, fetch }) => {
     return (<>
         <UserPageNavbar user={user} />
         <UserLargeCard user={user}>
-            <Card.Title>Platby</Card.Title>
+            <Card.Title>Platba</Card.Title>
             <Accordion defaultActiveKey="0">
                 {user.studies.map((study, index) => (
                     <Accordion.Item key={index}>
                         <Accordion.Header>
-                            <Check />
+                            {study.payment.amount == study.payment.paymentInfo.amount && <Check />}
                             <Link to={'/programs/program/view/' + study.program.id}>{study.program.name}</Link>
                         </Accordion.Header>
                         <Accordion.Body>
-                            {study.payments.map((payment, index) => (
-                                <Card key={index} className="mb-3">
-                                    <Card.Body>
-                                        <Card.Title>
-                                            <Badge bg="success" className="me-2">Zaplaceno</Badge>
-                                            {index + 1}. Platba
-                                        </Card.Title>
-                                        <ListGroup variant="flush">
-                                            <ListGroup.Item>
-                                                <strong>Částka:</strong> {payment.amount} Kč
-                                            </ListGroup.Item>
-                                            <ListGroup.Item>
-                                                <strong>Požadovaná Částka:</strong> {payment.paymentInfo.amount} Kč
-                                            </ListGroup.Item>
-                                            <ListGroup.Item>
-                                                <strong>Datum:</strong> {payment.paymentInfo.date}
-                                            </ListGroup.Item>
-                                        </ListGroup>
-                                    </Card.Body>
-                                </Card>
-                            ))}
+                            <ListGroup variant="flush">
+                                <ListGroup.Item className="d-flex justify-content-between align-items-center">
+                                    <span><strong>Zaplacená částka:</strong> {study.payment.amount} Kč</span>
+                                    <PaymentButton
+                                        operation="U"
+                                        payment={{ id: study.payment.id, amount: study.payment.amount, lastchange: study.payment.lastchange }}
+                                        onDone={(data) => handlePaymentUpdate(data, fetch)}
+                                    >
+                                        <Button variant="outline-primary" size="sm">Upravit</Button>
+                                    </PaymentButton>
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    <strong>Požadovaná částka:</strong> {study.payment.paymentInfo.amount} Kč
+                                </ListGroup.Item>
+                            </ListGroup>
                         </Accordion.Body>
                     </Accordion.Item>
                 ))}
             </Accordion>
             <Card.Title className="mt-3">Nahrané Dokumenty</Card.Title>
-            <ListGroup variant="flush" className="mt-2">
+            {/* <ListGroup variant="flush" className="mt-2">
                 {user.documents.map((document, index) => (
                     <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
                         <Link to={'/documents/document/view/' + document.id}>{document.name}</Link>
                         <Badge bg="info">{document.type || "Dokument"}</Badge>
                     </ListGroup.Item>
                 ))}
-            </ListGroup>
+            </ListGroup> */}
             <DocumentButton
                 operation="C"
                 document={{ name: "New Item", name_en: "New Item EN" }}
@@ -91,7 +95,7 @@ const UserPageContent = ({ user }) => {
                 Insert
             </DocumentButton>
             <Card.Title className="mt-3">Výsledky přijmacího řízení</Card.Title>
-            <ListGroup variant="flush" className="mt-2">
+            {/* <ListGroup variant="flush" className="mt-2">
                 {user.evaluations.map((evaluation, index) => {
                     let variant = "secondary";
                     let icon = "⬤";
@@ -121,7 +125,7 @@ const UserPageContent = ({ user }) => {
                         </ListGroup.Item>
                     );
                 })}
-            </ListGroup>
+            </ListGroup> */}
         </UserLargeCard>
     </>)
 }
@@ -152,69 +156,6 @@ const UserPageContentLazy = ({ user }) => {
     let { error, loading, entity, fetch } = useAsyncAction(UserReadAsyncAction, user)
     const [delayer] = useState(() => CreateDelayer())
 
-    if (entity !== undefined) {
-        entity = {
-            ...entity,
-            startdate: "01.09.2023",
-            enddate: "30.06.2024",
-            studies: [
-                ...(entity.studies || []),
-                {
-                    program: {
-                        name: "Vojenská matematika",
-                        id: "1234567890"
-                    },
-                    payments: [
-                        {
-                            amount: 1000,
-                            paymentInfo: {
-                                id: "1234567890",
-                                date: "01.09.2023",
-                                amount: 1000
-                            }
-                        }
-                    ]
-                }
-            ],
-            documents: [
-                ...(entity.documents || []),
-                {
-                    id: "doc-123",
-                    name: "Rodný list",
-                    type: "PDF"
-                },
-                {
-                    id: "doc-456",
-                    name: "Životopis",
-                    type: "Word"
-                },
-                {
-                    id: "doc-789",
-                    name: "dick pick",
-                    type: "PNG"
-                }
-            ],
-            evaluations: [
-                ...(entity.evaluations || []),
-                {
-                    id: "eval-123",
-                    name: "Tělocvik",
-                    result: 80
-                },
-                {
-                    id: "eval-456",
-                    name: "Matematika",
-                    result: 67
-                },
-                {
-                    id: "eval-789",
-                    name: "Anglický jazyk",
-                    result: 45
-                }
-            ],
-        };
-    }
-
     const handleChange = async (e) => {
         // console.log("GroupCategoryPageContentLazy.handleChange.e", e)
         const data = e.target.value
@@ -231,7 +172,7 @@ const UserPageContentLazy = ({ user }) => {
     return (<>
         {loading && <LoadingSpinner />}
         {error && <ErrorHandler errors={error} />}
-        {entity && <UserPageContent user={entity} onChange={handleChange} onBlur={handleBlur} />}
+        {entity && <UserPageContent user={entity} onChange={handleChange} onBlur={handleBlur} fetch={fetch} />}
     </>)
 }
 

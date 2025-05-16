@@ -24,6 +24,7 @@ fragment UserMedium on UserGQLModel {
     }
   }
 
+
   ...UserLink
 }
 `, UserLinkFragment)
@@ -32,8 +33,14 @@ export const UserLargeFragment = createQueryStrLazy(
 `
 fragment UserLarge on UserGQLModel {
   studies {
-    payments {
+    payment {
+      id
       amount
+      lastchange
+      paymentInfo {
+        id
+        amount
+      }
     }
   }
 
