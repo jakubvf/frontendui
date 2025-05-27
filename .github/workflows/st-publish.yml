@@ -29,7 +29,7 @@ jobs:
       # 4) Build & publish the Vite app
       # ————————————————————————————————
       - name: Build & publish Vite app
-        working-directory: apps/my-vite-app
+        working-directory: apps/app_faculty_applicant_view
         run: |
           npm ci               # install only this package’s deps
           npm run build        # runs `vite build`, produces dist/
@@ -42,7 +42,7 @@ jobs:
       # 5) Build & publish your other package
       # ————————————————————————————————
       - name: Build & publish core package
-        working-directory: packages/my-package
+        working-directory: packages/faculty_applicant_view
         run: |
           npm ci
           npm run build        # whatever build script you have
