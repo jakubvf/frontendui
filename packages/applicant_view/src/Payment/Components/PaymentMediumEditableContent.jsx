@@ -26,7 +26,7 @@ import { Input } from "@hrbolek/uoisfrontend-shared"
 export const PaymentMediumEditableContent = ({payment, onChange=(e)=>null, onBlur=(e)=>null, children}) => {
     return (
         <>
-            <Input id={"amount"} label={"Částka"} className="form-control" defaultValue={payment?.amount|| 0} onChange={onChange} onBlur={onBlur} />
+            <Input type="number" id={"amount"} label={"Částka"} className="form-control" defaultValue={payment?.amount|| 0} onChange={onChange} onBlur={onBlur} />
             {children}
         </>
     )

@@ -102,6 +102,7 @@ export const PaymentButton = ({ operation, children, payment, onDone = () => {},
     const { error, loading, fetch, entity } = useAsyncAction(asyncAction, payment, { deferred: true });
     const handleClick = async (params = {}) => {
         const processedParams = { ...params };
+        console.log(processedParams);
 
         // Ensure amount is a number if it's provided as a string from the form
         if (processedParams.hasOwnProperty('amount') && typeof processedParams.amount === 'string') {
