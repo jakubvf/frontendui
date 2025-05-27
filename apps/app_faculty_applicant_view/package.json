@@ -1,5 +1,5 @@
 {
-  "name": "@jakubvf/uoisapp-faculty",
+  "name": "@jakubvf/uoisapp-faculty_applicant_view",
   "private": true,
   "version": "0.0.1",
   "type": "module",
@@ -18,7 +18,7 @@
     "@hrbolek/uoisfrontend-shared": "*",
     "@hrbolek/uoisfrontend-ug": "*",
     "@hrbolek/uoisfrontend-ug2": "*",
-    "@jakubvf/uoisfrontend-applicant_view": "*"
+    "@jakubvf/uoisfrontend-faculty_applicant_view": "*"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
