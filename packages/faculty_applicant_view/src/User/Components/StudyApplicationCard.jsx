@@ -16,7 +16,7 @@ import { EvaluationList } from "../../Evaluation/Components"
  * @param {Array<Object>} props.evaluations - Array of evaluations
  * @returns {JSX.Element} Rendered component
  */
-export const StudyApplicationCard = ({ study, documents, evaluations, onUpdate }) => {
+export const StudyApplicationCard = ({ study, documents, evaluations, onUpdate, isEditMode = false }) => {
     return (
         <Card>
             <Card.Header style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -33,6 +33,7 @@ export const StudyApplicationCard = ({ study, documents, evaluations, onUpdate }
                 <ListGroup>
                     <ListGroup.Item className="d-flex justify-content-between align-items-center">
                         <span><strong>Zaplacená částka:</strong> {study.payment.amount} Kč</span>
+                        {isEditMode && (
                         <PaymentButton
                             operation="U"
                             payment={{ id: study.payment.id, amount: study.payment.amount, lastchange: study.payment.lastchange }}
@@ -40,27 +41,18 @@ export const StudyApplicationCard = ({ study, documents, evaluations, onUpdate }
                         >
                             <Button variant="outline-primary" size="sm">Upravit</Button>
                         </PaymentButton>
+                        )}
                     </ListGroup.Item>
                     <ListGroup.Item>
                         <strong>Požadovaná částka:</strong> {study.payment.paymentInfo.amount} Kč
                     </ListGroup.Item>
                 </ListGroup>
-                <br />
-                <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-                    <Card.Title>Nahrané dokumenty</Card.Title>
-                    <StudentDocumentButton
-                        operation="C"
-                        studentdocument={{ studentId: study.id }}
-                        onDone={onUpdate}
-                        style={{ marginLeft: '10px' }}
-                    >
-                        <Button variant="outline-primary" size="sm">+</Button>
-                    </StudentDocumentButton>
-                </div>
 
                 <StudentDocumentList
                     documents={documents.filter(doc => doc.student.id === study.id)}
+                    studentId={study.id}
                     onUpdate={onUpdate}
+                    isEditMode={isEditMode}
                 />
                 <Card.Title className="mt-3">Výsledky přijmacího řízení</Card.Title>
                 <EvaluationList evaluations={evaluations} />

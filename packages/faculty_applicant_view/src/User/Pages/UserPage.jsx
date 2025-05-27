@@ -28,18 +28,19 @@ import { EvaluationReadPageAsyncAction } from "../../Evaluation/Queries"
  * @param {Function} props.fetch - Function to refetch data
  * @returns {JSX.Element} Rendered component
  */
-const UserPageContent = ({ user, fetch, documents, evaluations }) => {
+const UserPageContent = ({ isEditMode = false, user, fetch, documents, evaluations }) => {
     return (
         <>
             <UserPageNavbar user={user} />
             <UserLargeCard user={user}>
-                <UserScalarAttribute user={user} />
-                <UserVectorsAttribute user={user} />
+                <UserScalarAttribute user={user} isEditMode={isEditMode} />
+                <UserVectorsAttribute user={user} isEditMode={isEditMode} />
                 <StudyApplicationsList
                     studies={user.studies}
                     documents={documents}
                     evaluations={evaluations}
                     onUpdate={fetch}
+                    isEditMode={isEditMode}
                 />
             </UserLargeCard>
         </>
@@ -53,9 +54,10 @@ const UserPageContent = ({ user, fetch, documents, evaluations }) => {
  * @param {Object} props - Component props
  * @param {Object} props.user - User identifier object
  * @param {string} props.user.id - User's unique identifier
+ * @param {boolean} props.isEditMode - Whether the page is in edit mode
  * @returns {JSX.Element} Component that fetches and displays user data
  */
-const UserPageContentLazy = ({ user }) => {
+const UserPageContentLazy = ({ user, isEditMode = false }) => {
     const { error: userError, loading: userLoading, entity, fetch: fetchUser } = useAsyncAction(UserReadAsyncAction, user)
     const { error: docError, loading: docLoading, dispatchResult: docResult, fetch: fetchDocs } = useAsyncAction(StudentdocumentReadPageAsyncAction, {})
     const { error: evalError, loading: evalLoading, dispatchResult: evalResult, fetch: fetchEvals } = useAsyncAction(EvaluationReadPageAsyncAction, {})
@@ -92,6 +94,7 @@ const UserPageContentLazy = ({ user }) => {
         fetch={handleUpdate}
         documents={docResult?.data?.result || []}
         evaluations={evalResult?.data?.result || []}
+        isEditMode={isEditMode}
     />
 }
 
@@ -99,10 +102,12 @@ const UserPageContentLazy = ({ user }) => {
  * Main page component that displays user information based on URL parameters.
  * 
  * @component
+ * @param {Object} props - Component props
+ * @param {boolean} props.isEditMode - Whether the page is in edit mode
  * @returns {JSX.Element} The rendered user page component
  */
-export const UserPage = () => {
+export const UserPage = ({ isEditMode = false }) => {
     const { id } = useParams()
     const user = { id }
-    return <UserPageContentLazy user={user} />
+    return <UserPageContentLazy user={user} isEditMode={isEditMode} />
 }

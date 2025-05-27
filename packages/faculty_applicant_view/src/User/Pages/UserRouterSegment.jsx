@@ -15,5 +15,14 @@ import { UserPage } from "./UserPage"
  */
 export const UserRouterSegment = {
     path: `/${UserURI}:id`,
-    element: <UserPage />,
+    children: [
+        {
+            path: '',
+            element: <UserPage isEditMode={false} />
+        },
+        {
+            path: 'edit',
+            element: <UserPage isEditMode={true} />
+        }
+    ]
 }
