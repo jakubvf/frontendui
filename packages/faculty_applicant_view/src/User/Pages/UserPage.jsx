@@ -15,36 +15,20 @@ import { StudentdocumentReadPageAsyncAction } from "../../StudentDocument/Querie
 import { PaymentButton } from "../../Payment/Components"
 import { StudentDocumentList, StudentDocumentButton } from "../../StudentDocument/Components"
 
-const handleDocumentSubmit = (data) => {
-    console.log("Document submitted:", data)
-}
-
-const handlePaymentUpdate = (data, fetch) => {
-    console.log("Payment update submitted:", data)
-    if (fetch) {
-    }
-}
-
 /**
- * A page content component for displaying detailed information about an user entity.
- *
- * This component utilizes `UserLargeCard` to create a structured layout and displays 
- * the serialized representation of the `user` object within the card's content.
- *
- * @component
- * @param {Object} props - The properties for the UserPageContent component.
- * @param {Object} props.user - The object representing the user entity.
- * @param {string|number} props.user.id - The unique identifier for the user entity.
- * @param {string} props.user.name - The name or label of the user entity.
- * @param {function} props.fetch - Function to refetch user data.
- *
- * @returns {JSX.Element} A JSX element rendering the page content for an user entity.
- *
- * @example
- * // Example usage:
- * const userEntity = { id: 123, name: "Sample Entity" };
+ * Displays detailed information about a user's applications and related documents.
  * 
- * <UserPageContent user={userEntity} />
+ * @component
+ * @param {Object} props - Component props
+ * @param {Object} props.user - User entity data
+ * @param {string} props.user.id - User's unique identifier
+ * @param {string} props.user.name - User's name
+ * @param {Array<Object>} props.user.studies - Array of study applications
+ * @param {Array<Object>} props.documents - Array of student documents
+ * @param {boolean} props.documentsLoading - Loading state for documents
+ * @param {Error} props.documentsError - Error state for documents
+ * @param {Function} props.fetch - Function to refetch data
+ * @returns {JSX.Element} Rendered component
  */
 const UserPageContent = ({ user, fetch, documents, documentsLoading, documentsError }) => {
     return (<>
@@ -79,7 +63,7 @@ const UserPageContent = ({ user, fetch, documents, documentsLoading, documentsEr
                                 <strong>Požadovaná částka:</strong> {study.payment.paymentInfo.amount} Kč
                             </ListGroup.Item>
                         </ListGroup>
-                        <br></br>
+                        <br />
                         <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
                             <Card.Title>Nahrané dokumenty</Card.Title>
                             <StudentDocumentButton
@@ -93,7 +77,7 @@ const UserPageContent = ({ user, fetch, documents, documentsLoading, documentsEr
                         </div>
 
                         <StudentDocumentList 
-                            documents={documents.filter(doc => doc.student.id === study.id)} // tohle je workaround, dokud GQL where filtr nefugnuje
+                            documents={documents.filter(doc => doc.student.id === study.id)}
                             loading={documentsLoading}
                             error={documentsError}
                         />
@@ -101,76 +85,32 @@ const UserPageContent = ({ user, fetch, documents, documentsLoading, documentsEr
                     </Card.Body>
                 </Card>
             ))}
-            {/* <ListGroup variant="flush" className="mt-2">
-                {user.evaluations.map((evaluation, index) => {
-                    let variant = "secondary";
-                    let icon = "⬤";
-
-                    if (evaluation.result > 75) {
-                        variant = "success";
-                        icon = "🏆"; // Top placement
-                    } else if (evaluation.result > 50) {
-                        variant = "warning";
-                        icon = "⭐"; // Mid placement
-                    } else {
-                        variant = "danger";
-                        icon = "⚠️"; // Low placement
-                    }
-
-                    return (
-                        <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
-                            <div>
-                                <Link to={'/evaluations/evaluation/view/' + evaluation.id}>{evaluation.name}</Link>
-                            </div>
-                            <div className="d-flex align-items-center">
-                                <Badge bg={variant} className="me-2">
-                                    {icon}
-                                </Badge>
-                                <span>{evaluation.result} %</span>
-                            </div>
-                        </ListGroup.Item>
-                    );
-                })}
-            </ListGroup> */}
         </UserLargeCard>
     </>)
 }
 
 /**
- * A lazy-loading component for displaying content of an user entity.
- *
- * This component is created using `createLazyComponent` and wraps `UserPageContent` to provide
- * automatic data fetching for the `user` entity. It uses the `UserReadAsyncAction` to fetch
- * the entity data and dynamically injects it into the wrapped component as the `user` prop.
- *
- * @constant
- * @type {React.Component}
- *
- * @param {Object} props - The props for the lazy-loading component.
- * @param {string|number} props.user - The identifier of the user entity to fetch and display.
- *
- * @returns {JSX.Element} A component that fetches the `user` entity data and displays it
- * using `UserPageContent`, or shows loading and error states as appropriate.
- *
- * @example
- * // Example usage:
- * const userId = "12345";
- *
- * <UserPageContentLazy user={userId} />
+ * Lazy-loading wrapper component for UserPageContent that handles data fetching.
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {Object} props.user - User identifier object
+ * @param {string} props.user.id - User's unique identifier
+ * @returns {JSX.Element} Component that fetches and displays user data
  */
 const UserPageContentLazy = ({ user }) => {
-    let { error: userError, loading: userLoading, entity, fetch: fetchUser } = useAsyncAction(UserReadAsyncAction, user)
+    const { error: userError, loading: userLoading, entity, fetch: fetchUser } = useAsyncAction(UserReadAsyncAction, user)
     const { error: docError, loading: docLoading, dispatchResult: docResult, fetch: fetchDocs } = useAsyncAction(StudentdocumentReadPageAsyncAction, {})
     const [delayer] = useState(() => CreateDelayer())
 
     const handleChange = async (e) => {
         const data = e.target.value
-        const serverResponse = await delayer(() => fetchUser(data))
+        await delayer(() => fetchUser(data))
     }
 
     const handleBlur = async (e) => {
         const data = e.target.value
-        const serverResponse = await delayer(() => fetchUser(data))
+        await delayer(() => fetchUser(data))
     }
 
     const handleDocumentUpdate = async () => {
@@ -195,20 +135,10 @@ const UserPageContentLazy = ({ user }) => {
 }
 
 /**
- * A page component for displaying lazy-loaded content of an user entity.
- *
- * This component extracts the `id` parameter from the route using `useParams`,
- * constructs an `user` object, and passes it to the `UserPageContentLazy` component.
- * The `UserPageContentLazy` component handles the lazy-loading and rendering of the entity's content.
- *
+ * Main page component that displays user information based on URL parameters.
+ * 
  * @component
- * @returns {JSX.Element} The rendered page component displaying the lazy-loaded content for the user entity.
- *
- * @example
- * // Example route setup:
- * <Route path="/user/:id" element={<UserPage />} />
- *
- * // Navigating to "/user/12345" will render the page for the user entity with ID 12345.
+ * @returns {JSX.Element} The rendered user page component
  */
 export const UserPage = () => {
     const { id } = useParams()
