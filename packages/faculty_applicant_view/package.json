@@ -1,6 +1,6 @@
 {
-  "name": "@jakubvf/uoisfrontend-applicant_view",
-  "version": "0.5.0",
+  "name": "@jakubvf/uoisfrontend-faculty_applicant_view",
+  "version": "0.0.1",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

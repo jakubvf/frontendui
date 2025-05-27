@@ -3,17 +3,10 @@ import {
       RouterProvider
 } from "react-router-dom";
 
-import { useAsyncAction } from '@hrbolek/uoisfrontend-gql-shared';
-import { UserRouterSegment } from '@jakubvf/uoisfrontend-applicant_view';
-import { NewDocumentPage } from "../../../packages/applicant_view/src/Document/Pages/NewDocumentPage";
-
+import { UserRouterSegment } from '@jakubvf/uoisfrontend-faculty_applicant_view';
 
 export const Routes = [
   UserRouterSegment,
-  {
-    path: "/",
-    element: <NewDocumentPage />
-  }
 ]
 
 // const router = createBrowserRouter(Routes, {basename: "/ug"});
