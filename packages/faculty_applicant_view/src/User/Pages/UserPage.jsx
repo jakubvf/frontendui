@@ -6,14 +6,14 @@ import { useAsyncAction } from "@hrbolek/uoisfrontend-gql-shared"
 import { UserLargeCard } from "../Components"
 import { UserReadAsyncAction } from "../Queries"
 import { UserPageNavbar } from "./UserPageNavbar"
-import { Accordion, Card, Badge, ListGroup } from "react-bootstrap"
+import { Card, Badge, ListGroup } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import { Check } from "react-bootstrap-icons"
 import Button from 'react-bootstrap/Button';
+import { StudentdocumentReadPageAsyncAction } from "../../StudentDocument/Queries"
 
-import { DocumentButton } from "../../Document/Components/DocumentCUDButton"
 import { PaymentButton } from "../../Payment/Components"
-import { StudentDocumentList } from "../../StudentDocument/Components"
+import { StudentDocumentList, StudentDocumentButton } from "../../StudentDocument/Components"
 
 const handleDocumentSubmit = (data) => {
     console.log("Document submitted:", data)
@@ -22,7 +22,6 @@ const handleDocumentSubmit = (data) => {
 const handlePaymentUpdate = (data, fetch) => {
     console.log("Payment update submitted:", data)
     if (fetch) {
-        fetch();
     }
 }
 
@@ -47,48 +46,61 @@ const handlePaymentUpdate = (data, fetch) => {
  * 
  * <UserPageContent user={userEntity} />
  */
-const UserPageContent = ({ user, fetch }) => {
+const UserPageContent = ({ user, fetch, documents, documentsLoading, documentsError }) => {
     return (<>
         <UserPageNavbar user={user} />
         <UserLargeCard user={user}>
-            <Card.Title>Platba</Card.Title>
-            <Accordion defaultActiveKey="0">
-                {user.studies.map((study, index) => (
-                    <Accordion.Item key={index}>
-                        <Accordion.Header>
-                            {study.payment.amount == study.payment.paymentInfo.amount && <Check />}
+            <Card.Title>Podané přihlášky</Card.Title>
+            {user.studies.map((study, index) => (
+                <Card key={index}>
+                    <Card.Header style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <div style={{ alignItems: 'left' }}>
                             <Link to={'/programs/program/view/' + study.program.id}>{study.program.name}</Link>
-                        </Accordion.Header>
-                        <Accordion.Body>
-                            <ListGroup variant="flush">
-                                <ListGroup.Item className="d-flex justify-content-between align-items-center">
-                                    <span><strong>Zaplacená částka:</strong> {study.payment.amount} Kč</span>
-                                    <PaymentButton
-                                        operation="U"
-                                        payment={{ id: study.payment.id, amount: study.payment.amount, lastchange: study.payment.lastchange }}
-                                        onDone={(data) => handlePaymentUpdate(data, fetch)}
-                                    >
-                                        <Button variant="outline-primary" size="sm">Upravit</Button>
-                                    </PaymentButton>
-                                </ListGroup.Item>
-                                <ListGroup.Item>
-                                    <strong>Požadovaná částka:</strong> {study.payment.paymentInfo.amount} Kč
-                                </ListGroup.Item>
-                            </ListGroup>
-                        </Accordion.Body>
-                    </Accordion.Item>
-                ))}
-            </Accordion>
-            <Card.Title className="mt-3">Nahrané Dokumenty</Card.Title>
-            <StudentDocumentList studentId={user.studies[0].id} />
-            <DocumentButton
-                operation="C"
-                document={{ name: "New Item", name_en: "New Item EN" }}
-                onDone={(data) => console.log("Document inserted:", data)}
-            >
-                Insert
-            </DocumentButton>
-            <Card.Title className="mt-3">Výsledky přijmacího řízení</Card.Title>
+                        </div>
+                        <div style={{ alignItems: 'right' }}>
+                            {study.payment.amount >= study.payment.paymentInfo.amount && <Badge bg="success">Zaplaceno</Badge>}
+                            {study.payment.amount < study.payment.paymentInfo.amount && <Badge bg="danger">Nezaplaceno</Badge>}
+                        </div>
+                    </Card.Header>
+                    <Card.Body>
+                        <Card.Title>Platba</Card.Title>
+                        <ListGroup>
+                            <ListGroup.Item className="d-flex justify-content-between align-items-center">
+                                <span><strong>Zaplacená částka:</strong> {study.payment.amount} Kč</span>
+                                <PaymentButton
+                                    operation="U"
+                                    payment={{ id: study.payment.id, amount: study.payment.amount, lastchange: study.payment.lastchange }}
+                                    onDone={(data) => fetch()}
+                                >
+                                    <Button variant="outline-primary" size="sm">Upravit</Button>
+                                </PaymentButton>
+                            </ListGroup.Item>
+                            <ListGroup.Item>
+                                <strong>Požadovaná částka:</strong> {study.payment.paymentInfo.amount} Kč
+                            </ListGroup.Item>
+                        </ListGroup>
+                        <br></br>
+                        <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                            <Card.Title>Nahrané dokumenty</Card.Title>
+                            <StudentDocumentButton
+                                operation="C"
+                                studentdocument={{ studentId: study.id }}
+                                onDone={fetch}
+                                style={{ marginLeft: '10px' }}
+                            >
+                                <Button variant="outline-primary" size="sm">+</Button>
+                            </StudentDocumentButton>
+                        </div>
+
+                        <StudentDocumentList 
+                            documents={documents.filter(doc => doc.student.id === study.id)} // tohle je workaround, dokud GQL where filtr nefugnuje
+                            loading={documentsLoading}
+                            error={documentsError}
+                        />
+                        <Card.Title className="mt-3">Výsledky přijmacího řízení</Card.Title>
+                    </Card.Body>
+                </Card>
+            ))}
             {/* <ListGroup variant="flush" className="mt-2">
                 {user.evaluations.map((evaluation, index) => {
                     let variant = "secondary";
@@ -147,27 +159,39 @@ const UserPageContent = ({ user, fetch }) => {
  * <UserPageContentLazy user={userId} />
  */
 const UserPageContentLazy = ({ user }) => {
-    let { error, loading, entity, fetch } = useAsyncAction(UserReadAsyncAction, user)
+    let { error: userError, loading: userLoading, entity, fetch: fetchUser } = useAsyncAction(UserReadAsyncAction, user)
+    const { error: docError, loading: docLoading, dispatchResult: docResult, fetch: fetchDocs } = useAsyncAction(StudentdocumentReadPageAsyncAction, {})
     const [delayer] = useState(() => CreateDelayer())
 
     const handleChange = async (e) => {
-        // console.log("GroupCategoryPageContentLazy.handleChange.e", e)
         const data = e.target.value
-        const serverResponse = await delayer(() => fetch(data))
-        // console.log("GroupCategoryPageContentLazy.serverResponse", serverResponse)
-    }
-    const handleBlur = async (e) => {
-        // console.log("GroupCategoryPageContentLazy.handleBlur.e", e)
-        const data = e.target.value
-        const serverResponse = await delayer(() => fetch(data))
-        // console.log("GroupCategoryPageContentLazy.serverResponse", serverResponse)
+        const serverResponse = await delayer(() => fetchUser(data))
     }
 
-    return (<>
-        {loading && <LoadingSpinner />}
-        {error && <ErrorHandler errors={error} />}
-        {entity && <UserPageContent user={entity} onChange={handleChange} onBlur={handleBlur} fetch={fetch} />}
-    </>)
+    const handleBlur = async (e) => {
+        const data = e.target.value
+        const serverResponse = await delayer(() => fetchUser(data))
+    }
+
+    const handleDocumentUpdate = async () => {
+        await fetchUser()
+        await fetchDocs()
+    }
+
+    if (userLoading || docLoading) return <LoadingSpinner />
+    if (userError) return <ErrorHandler errors={userError} />
+    if (docError) return <ErrorHandler errors={docError} />
+    if (!entity) return null
+
+    return <UserPageContent 
+        user={entity} 
+        onChange={handleChange} 
+        onBlur={handleBlur} 
+        fetch={handleDocumentUpdate}
+        documents={docResult?.data?.result || []}
+        documentsLoading={docLoading}
+        documentsError={docError}
+    />
 }
 
 /**

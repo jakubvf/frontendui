@@ -3,6 +3,7 @@ import { ButtonWithDialog, ErrorHandler, LoadingSpinner } from "@hrbolek/uoisfro
 import { useAsyncAction } from "@hrbolek/uoisfrontend-gql-shared";
 import { StudentdocumentDeleteAsyncAction, StudentdocumentInsertAsyncAction, StudentdocumentUpdateAsyncAction } from "../Queries";
 import { StudentdocumentMediumEditableContent } from "./StudentdocumentMediumEditableContent";
+import { DocumentInsertAsyncAction } from "../../Document/Queries";
 
 /**
  * StudentdocumentCUDButton Component
@@ -67,7 +68,7 @@ import { StudentdocumentMediumEditableContent } from "./StudentdocumentMediumEdi
  *
  * @returns {JSX.Element} The dynamically selected button component for the specified operation.
  */
-export const StudentdocumentButton = ({ operation, children, studentdocument, onDone = () => {}, ...props }) => {
+export const StudentDocumentButton = ({ operation, children, studentdocument, onDone = () => { }, ...props }) => {
     const operationConfig = {
         C: {
             asyncAction: StudentdocumentInsertAsyncAction,
@@ -97,13 +98,44 @@ export const StudentdocumentButton = ({ operation, children, studentdocument, on
         return <ErrorHandler errors={`Invalid operation value: '${operation}'. Must be one of 'C', 'U', or 'D'.`} />;
     }
 
+    if (operation === 'C' && !studentdocument.studentId) {
+        return <ErrorHandler errors={`For '${operation}' operation, 'studentdocument' must include an 'studentId' key.`} />;
+    }
+
     const { asyncAction, dialogTitle, loadingMsg, renderContent } = operationConfig[operation];
 
     const { error, loading, fetch, entity } = useAsyncAction(asyncAction, studentdocument, { deferred: true });
+    const { error: documentError, fetch: documentFetch } = useAsyncAction(DocumentInsertAsyncAction, { name: studentdocument.name, description: studentdocument.description }, { deferred: true });
+
     const handleClick = async (params = {}) => {
-        const fetchParams = { ...studentdocument, ...params };
-        const freshStudentdocument = await fetch(fetchParams);
-        onDone(freshStudentdocument); // Pass the result to the external callback
+        try {
+            let finalStudentdocument = { ...studentdocument, ...params };
+            
+            // If we need to create a document first
+            if (!finalStudentdocument.documentId) {
+                const documentResult = await documentFetch({ 
+                    name: finalStudentdocument.name, 
+                    description: finalStudentdocument.description 
+                });
+
+                console.log("documentResult", documentResult);
+                
+                if (documentResult) {
+                    finalStudentdocument = {
+                        ...finalStudentdocument,
+                        documentId: documentResult.data.result.id
+                    };
+                }
+            }
+
+            // Now create/update the student document with the document ID
+            console.log("finalStudentdocument", finalStudentdocument);
+            const freshStudentdocument = await fetch(finalStudentdocument);
+            console.log("finalStudentdocument2", finalStudentdocument);
+            onDone(freshStudentdocument);
+        } catch (err) {
+            console.error('Error in handleClick:', err);
+        }
     };
 
     // Validate required fields for "U" and "D"

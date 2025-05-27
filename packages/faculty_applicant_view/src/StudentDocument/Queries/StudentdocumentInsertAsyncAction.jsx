@@ -3,9 +3,9 @@ import { StudentdocumentLargeFragment } from "./StudentdocumentFragments";
 
 const StudentdocumentInsertMutation = createQueryStrLazy(
 `
-mutation StudentdocumentInsertMutation($id: UUID, $name: String, $name_en: String) {
-  result: studentdocumentInsert(
-    studentdocument: {id: $id, name: $name, nameEn: $name_en}
+mutation StudentdocumentInsertMutation($id: UUID, $documentId: UUID, $studentId: UUID, $description: String) {
+  result: studentDocumentInsert(
+    studentDocument: {id: $id, documentId: $documentId, studentId: $studentId, description: $description}
   ) {
     ... on InsertError {
       failed

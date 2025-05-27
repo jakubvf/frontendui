@@ -27,7 +27,7 @@ export const StudentdocumentMediumEditableContent = ({studentdocument, onChange=
     return (
         <>           
             <Input id={"name"} label={"Název"} className="form-control" defaultValue={studentdocument?.name|| "Název"} onChange={onChange} onBlur={onBlur} />
-            <Input id={"name_en"} label={"Anglický název"} className="form-control" defaultValue={studentdocument?.name_en|| "Anglický název"} onChange={onChange} onBlur={onBlur} />
+            <Input id={"description"} label={"Popis"} className="form-control" defaultValue={studentdocument?.description|| "Popis"} onChange={onChange} onBlur={onBlur} />
             {children}
         </>
     )

@@ -3,9 +3,9 @@ import { DocumentLargeFragment } from "./DocumentFragments";
 
 const DocumentInsertMutation = createQueryStrLazy(
 `
-mutation DocumentInsertMutation($id: UUID, $name: String, $name_en: String) {
+mutation DocumentInsertMutation($id: UUID, $name: String, $nameEn: String, $description: String) {
   result: documentInsert(
-    document: {id: $id, name: $name, nameEn: $name_en}
+    document: {id: $id, name: $name, nameEn: $nameEn, description: $description}
   ) {
     ... on InsertError {
       failed
