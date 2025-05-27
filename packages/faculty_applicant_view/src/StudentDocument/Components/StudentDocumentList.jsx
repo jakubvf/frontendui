@@ -2,13 +2,7 @@ import { ErrorHandler, LoadingSpinner } from "@hrbolek/uoisfrontend-shared"
 import { StudentdocumentLink } from "."
 import { ListGroup } from "react-bootstrap"
 
-export const StudentDocumentList = ({ documents, loading, error }) => {
-    if (loading) {
-        return <LoadingSpinner />
-    }
-    if (error) {
-        return <ErrorHandler errors={error} />
-    }
+export const StudentDocumentList = ({ documents }) => {
 
     return (
         <ListGroup>
