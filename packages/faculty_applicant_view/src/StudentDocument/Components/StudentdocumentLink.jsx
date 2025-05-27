@@ -30,5 +30,5 @@ export const StudentdocumentURI = `/studentdocument/studentdocument/view/`;
  * @see ProxyLink - The base component used for rendering the link.
  */
 export const StudentdocumentLink = ({studentdocument, ...props}) => {
-    return <ProxyLink to={StudentdocumentURI + studentdocument.id} {...props}>{studentdocument.name}</ProxyLink>
+    return <ProxyLink to={StudentdocumentURI + studentdocument.id} {...props}>{studentdocument.name || studentdocument.id}</ProxyLink>
 }

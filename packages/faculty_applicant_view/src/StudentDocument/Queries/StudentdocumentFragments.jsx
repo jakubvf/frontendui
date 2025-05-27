@@ -2,26 +2,30 @@ import { createQueryStrLazy } from "@hrbolek/uoisfrontend-gql-shared"
 
 export const StudentdocumentLinkFragment = createQueryStrLazy(
 `
-fragment StudentdocumentLink on StudentdocumentGQLModel {
+fragment StudentdocumentLink on StudentDocumentGQLModel {
   __typename
   id
   lastchange
-  name
-  nameEn
+  student {
+    id
+  }
+  document {
+    id
+  }
 }
 `)
 
 
 export const StudentdocumentMediumFragment = createQueryStrLazy(
 `
-fragment StudentdocumentMedium on StudentdocumentGQLModel {
+fragment StudentdocumentMedium on StudentDocumentGQLModel {
   ...StudentdocumentLink
 }
 `, StudentdocumentLinkFragment)
 
 export const StudentdocumentLargeFragment = createQueryStrLazy(
 `
-fragment StudentdocumentLarge on StudentdocumentGQLModel {
+fragment StudentdocumentLarge on StudentDocumentGQLModel {
   ...StudentdocumentMedium
 }
 `, StudentdocumentMediumFragment)

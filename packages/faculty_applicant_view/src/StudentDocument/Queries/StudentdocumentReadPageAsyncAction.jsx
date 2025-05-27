@@ -3,8 +3,8 @@ import { StudentdocumentLargeFragment } from "./StudentdocumentFragments";
 
 const StudentdocumentReadPageQuery = createQueryStrLazy(
 `
-query StudentdocumentReadPageQuery($skip: Int, $limit: Int, $where: StudentdocumentWhereInputFilter) {
-  result: studentdocumentPage(skip: $skip, limit: $limit, where: $where) {
+query StudentdocumentReadPageQuery($skip: Int, $limit: Int, $where: StudentDocumentInputFilter) {
+  result: studentDocumentPage(skip: $skip, limit: $limit, where: $where) {
     ...StudentdocumentLarge
   }
 }

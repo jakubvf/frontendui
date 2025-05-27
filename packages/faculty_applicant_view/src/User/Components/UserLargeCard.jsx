@@ -36,29 +36,6 @@ export const UserLargeCard = ({ user, children }) => {
             <Row>
                 <LeftColumn>
                     <UserMediumCard user={user}>
-                        <Card.Body>
-                            <div className="mb-2">
-                                <Envelope className="me-2" />
-                                Email: <Card.Link href={'mailto:' + user.email}>{user.email}</Card.Link>
-                            </div>
-                            <div className="mb-2">
-                                <Calendar className="me-2" />
-                                Začátek studia: {user.startdate}
-                            </div>
-                            <div className="mb-3">
-                                <Calendar className="me-2" />
-                                Konec studia: {user.enddate}
-                            </div>
-                            <div><strong>Studijní programy:</strong></div>
-                            <ListGroup variant="flush" className="mt-2">
-                                {user.studies.map((study, index) => (
-                                    <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
-                                        <Link to={'/programs/program/view/' + study.program.id}>{study.program.name}</Link>
-                                        <Badge bg="info">{study.program.type || "Program"}</Badge>
-                                    </ListGroup.Item>
-                                ))}
-                            </ListGroup>
-                        </Card.Body>
                     </UserMediumCard>
                 </LeftColumn>
                 <MiddleColumn>

@@ -13,6 +13,7 @@ import Button from 'react-bootstrap/Button';
 
 import { DocumentButton } from "../../Document/Components/DocumentCUDButton"
 import { PaymentButton } from "../../Payment/Components"
+import { StudentDocumentList } from "../../StudentDocument/Components"
 
 const handleDocumentSubmit = (data) => {
     console.log("Document submitted:", data)
@@ -79,14 +80,7 @@ const UserPageContent = ({ user, fetch }) => {
                 ))}
             </Accordion>
             <Card.Title className="mt-3">Nahrané Dokumenty</Card.Title>
-            {/* <ListGroup variant="flush" className="mt-2">
-                {user.documents.map((document, index) => (
-                    <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
-                        <Link to={'/documents/document/view/' + document.id}>{document.name}</Link>
-                        <Badge bg="info">{document.type || "Dokument"}</Badge>
-                    </ListGroup.Item>
-                ))}
-            </ListGroup> */}
+            <StudentDocumentList studentId={user.studies[0].id} />
             <DocumentButton
                 operation="C"
                 document={{ name: "New Item", name_en: "New Item EN" }}

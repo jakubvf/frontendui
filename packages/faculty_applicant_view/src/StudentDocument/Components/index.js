@@ -5,5 +5,5 @@ export * from './StudentdocumentLargeCard'
 export * from './StudentdocumentLink'
 export * from './StudentdocumentMediumContent'
 export * from './StudentdocumentMediumCard'
-
+export * from './StudentDocumentList'
 export * from './StudentdocumentMediumEditableContent'

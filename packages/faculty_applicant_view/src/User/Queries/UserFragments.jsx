@@ -33,6 +33,7 @@ export const UserLargeFragment = createQueryStrLazy(
 `
 fragment UserLarge on UserGQLModel {
   studies {
+    id
     payment {
       id
       amount
