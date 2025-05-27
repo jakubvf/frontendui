@@ -6,18 +6,11 @@ import { useAsyncAction } from "@hrbolek/uoisfrontend-gql-shared"
 import { UserLargeCard } from "../Components"
 import { UserReadAsyncAction } from "../Queries"
 import { UserPageNavbar } from "./UserPageNavbar"
-import { Card, Badge, ListGroup } from "react-bootstrap"
-import { Link } from "react-router-dom"
-import { Check } from "react-bootstrap-icons"
-import Button from 'react-bootstrap/Button';
 import { StudentdocumentReadPageAsyncAction } from "../../StudentDocument/Queries"
 
-import { PaymentButton } from "../../Payment/Components"
-import { StudentDocumentList, StudentDocumentButton } from "../../StudentDocument/Components"
 import { StudyApplicationsList } from "../Components/StudyApplicationsList"
 import { UserScalarAttribute } from "../Scalars/UserScalarAttribute"
 import { UserVectorsAttribute } from "../Vectors/UserVectorsAttribute"
-import { EvaluationList } from "../../Evaluation/Components"
 import { EvaluationReadPageAsyncAction } from "../../Evaluation/Queries"
 
 /**
@@ -78,9 +71,10 @@ const UserPageContentLazy = ({ user }) => {
         await delayer(() => fetchUser(data))
     }
 
-    const handleDocumentUpdate = async () => {
+    const handleUpdate = async () => {
         await fetchUser()
         await fetchDocs()
+        await fetchEvals()
     }
 
     if (userLoading) return <LoadingSpinner />
@@ -95,7 +89,7 @@ const UserPageContentLazy = ({ user }) => {
         user={entity} 
         onChange={handleChange} 
         onBlur={handleBlur} 
-        fetch={handleDocumentUpdate}
+        fetch={handleUpdate}
         documents={docResult?.data?.result || []}
         evaluations={evalResult?.data?.result || []}
     />

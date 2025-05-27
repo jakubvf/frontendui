@@ -3,11 +3,11 @@ import { StudentdocumentLargeFragment } from "./StudentdocumentFragments";
 
 const StudentdocumentDeleteMutation = createQueryStrLazy(
 `
-mutation StudentdocumentDeleteMutation($id: UUID!, $lastchange: DateTime!) {
-  result: studentdocumentDelete(
-    studentdocument: {id: $id, lastchange: $lastchange}
+mutation StudentDocumentDeleteMutation($id: UUID!, $lastchange: DateTime!) {
+  result: studentDocumentDelete(
+    studentDocument: {id: $id, lastchange: $lastchange}
   ) {
-    ... on StudentdocumentGQLModelDeleteError {
+    ... on StudentDocumentGQLModelDeleteError {
       failed
       msg
       input

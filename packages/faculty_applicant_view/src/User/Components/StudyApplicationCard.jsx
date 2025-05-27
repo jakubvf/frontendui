@@ -60,6 +60,7 @@ export const StudyApplicationCard = ({ study, documents, evaluations, onUpdate }
 
                 <StudentDocumentList
                     documents={documents.filter(doc => doc.student.id === study.id)}
+                    onUpdate={onUpdate}
                 />
                 <Card.Title className="mt-3">Výsledky přijmacího řízení</Card.Title>
                 <EvaluationList evaluations={evaluations} />

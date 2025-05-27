@@ -108,33 +108,35 @@ export const StudentDocumentButton = ({ operation, children, studentdocument, on
     const { error: documentError, fetch: documentFetch } = useAsyncAction(DocumentInsertAsyncAction, { name: studentdocument.name, description: studentdocument.description }, { deferred: true });
 
     const handleClick = async (params = {}) => {
-        try {
-            let finalStudentdocument = { ...studentdocument, ...params };
-            
-            // If we need to create a document first
-            if (!finalStudentdocument.documentId) {
-                const documentResult = await documentFetch({ 
-                    name: finalStudentdocument.name, 
-                    description: finalStudentdocument.description 
-                });
+        // create document first, if it's not provided
+        if (operation === 'C') {
+            try {
+                let finalStudentdocument = { ...studentdocument, ...params };
 
-                console.log("documentResult", documentResult);
-                
-                if (documentResult) {
-                    finalStudentdocument = {
-                        ...finalStudentdocument,
-                        documentId: documentResult.data.result.id
-                    };
+                // If we need to create a document first
+                if (!finalStudentdocument.documentId) {
+                    const documentResult = await documentFetch({
+                        name: finalStudentdocument.name,
+                        description: finalStudentdocument.description
+                    });
+
+                    if (documentResult) {
+                        finalStudentdocument = {
+                            ...finalStudentdocument,
+                            documentId: documentResult.data.result.id
+                        };
+                    }
                 }
-            }
 
-            // Now create/update the student document with the document ID
-            console.log("finalStudentdocument", finalStudentdocument);
-            const freshStudentdocument = await fetch(finalStudentdocument);
-            console.log("finalStudentdocument2", finalStudentdocument);
-            onDone(freshStudentdocument);
-        } catch (err) {
-            console.error('Error in handleClick:', err);
+                // Now create/update the student document with the document ID
+                const freshStudentdocument = await fetch(finalStudentdocument);
+                onDone(freshStudentdocument);
+            } catch (err) {
+                console.error('Error in handleClick:', err);
+            }
+        } else {
+            await fetch(studentdocument);
+            onDone(studentdocument);
         }
     };
 
