@@ -17,6 +17,8 @@ import { StudentDocumentList, StudentDocumentButton } from "../../StudentDocumen
 import { StudyApplicationsList } from "../Components/StudyApplicationsList"
 import { UserScalarAttribute } from "../Scalars/UserScalarAttribute"
 import { UserVectorsAttribute } from "../Vectors/UserVectorsAttribute"
+import { EvaluationList } from "../../Evaluation/Components"
+import { EvaluationReadPageAsyncAction } from "../../Evaluation/Queries"
 
 /**
  * Displays detailed information about a user's applications and related documents.
@@ -33,7 +35,7 @@ import { UserVectorsAttribute } from "../Vectors/UserVectorsAttribute"
  * @param {Function} props.fetch - Function to refetch data
  * @returns {JSX.Element} Rendered component
  */
-const UserPageContent = ({ user, fetch, documents }) => {
+const UserPageContent = ({ user, fetch, documents, evaluations }) => {
     return (
         <>
             <UserPageNavbar user={user} />
@@ -43,6 +45,7 @@ const UserPageContent = ({ user, fetch, documents }) => {
                 <StudyApplicationsList
                     studies={user.studies}
                     documents={documents}
+                    evaluations={evaluations}
                     onUpdate={fetch}
                 />
             </UserLargeCard>
@@ -62,6 +65,7 @@ const UserPageContent = ({ user, fetch, documents }) => {
 const UserPageContentLazy = ({ user }) => {
     const { error: userError, loading: userLoading, entity, fetch: fetchUser } = useAsyncAction(UserReadAsyncAction, user)
     const { error: docError, loading: docLoading, dispatchResult: docResult, fetch: fetchDocs } = useAsyncAction(StudentdocumentReadPageAsyncAction, {})
+    const { error: evalError, loading: evalLoading, dispatchResult: evalResult, fetch: fetchEvals } = useAsyncAction(EvaluationReadPageAsyncAction, {})
     const [delayer] = useState(() => CreateDelayer())
 
     const handleChange = async (e) => {
@@ -81,8 +85,10 @@ const UserPageContentLazy = ({ user }) => {
 
     if (userLoading) return <LoadingSpinner />
     if (docLoading) return <LoadingSpinner />
+    if (evalLoading) return <LoadingSpinner />
     if (userError) return <ErrorHandler errors={userError} />
     if (docError) return <ErrorHandler errors={docError} />
+    if (evalError) return <ErrorHandler errors={evalError} />
     if (!entity) return null
 
     return <UserPageContent 
@@ -91,6 +97,7 @@ const UserPageContentLazy = ({ user }) => {
         onBlur={handleBlur} 
         fetch={handleDocumentUpdate}
         documents={docResult?.data?.result || []}
+        evaluations={evalResult?.data?.result || []}
     />
 }
 

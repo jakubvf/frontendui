@@ -6,8 +6,9 @@ fragment EvaluationLink on EvaluationGQLModel {
   __typename
   id
   lastchange
-  name
-  nameEn
+  exam {
+    name
+  }
 }
 `)
 
@@ -15,6 +16,9 @@ fragment EvaluationLink on EvaluationGQLModel {
 export const EvaluationMediumFragment = createQueryStrLazy(
 `
 fragment EvaluationMedium on EvaluationGQLModel {
+  studentId
+  passed
+  points
   ...EvaluationLink
 }
 `, EvaluationLinkFragment)

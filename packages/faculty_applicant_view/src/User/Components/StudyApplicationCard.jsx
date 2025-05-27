@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import Button from 'react-bootstrap/Button'
 import { PaymentButton } from "../../Payment/Components"
 import { StudentDocumentList, StudentDocumentButton } from "../../StudentDocument/Components"
-
+import { EvaluationList } from "../../Evaluation/Components"
 /**
  * Displays a single study application card with payment and document information.
  * 
@@ -13,12 +13,10 @@ import { StudentDocumentList, StudentDocumentButton } from "../../StudentDocumen
  * @param {Object} props.study.program - Program information
  * @param {Object} props.study.payment - Payment information
  * @param {Array<Object>} props.documents - Array of student documents
- * @param {boolean} props.documentsLoading - Loading state for documents
- * @param {Error} props.documentsError - Error state for documents
- * @param {Function} props.onUpdate - Callback function when data needs to be refreshed
+ * @param {Array<Object>} props.evaluations - Array of evaluations
  * @returns {JSX.Element} Rendered component
  */
-export const StudyApplicationCard = ({ study, documents, documentsLoading, documentsError, onUpdate }) => {
+export const StudyApplicationCard = ({ study, documents, evaluations, onUpdate }) => {
     return (
         <Card>
             <Card.Header style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -60,12 +58,12 @@ export const StudyApplicationCard = ({ study, documents, documentsLoading, docum
                     </StudentDocumentButton>
                 </div>
 
-                <StudentDocumentList 
+                <StudentDocumentList
                     documents={documents.filter(doc => doc.student.id === study.id)}
-                    loading={documentsLoading}
-                    error={documentsError}
                 />
                 <Card.Title className="mt-3">Výsledky přijmacího řízení</Card.Title>
+                <EvaluationList evaluations={evaluations} />
+
             </Card.Body>
         </Card>
     )

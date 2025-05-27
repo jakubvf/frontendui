@@ -3,12 +3,12 @@ import { EvaluationLargeFragment } from "./EvaluationFragments";
 
 const EvaluationReadPageQuery = createQueryStrLazy(
 `
-query EvaluationReadPageQuery($skip: Int, $limit: Int, $where: EvaluationWhereInputFilter) {
+query EvaluationReadPageQuery($skip: Int, $limit: Int, $where: EvaluationInputFilter) {
   result: evaluationPage(skip: $skip, limit: $limit, where: $where) {
     ...EvaluationLarge
   }
 }
 `, 
-    EvaluationLargeFragment)
+  EvaluationLargeFragment)
 
 export const EvaluationReadPageAsyncAction = createAsyncGraphQLAction(EvaluationReadPageQuery)

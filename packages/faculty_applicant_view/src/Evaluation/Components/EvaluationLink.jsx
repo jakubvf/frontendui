@@ -30,5 +30,5 @@ export const EvaluationURI = `/evaluation/evaluation/view/`;
  * @see ProxyLink - The base component used for rendering the link.
  */
 export const EvaluationLink = ({evaluation, ...props}) => {
-    return <ProxyLink to={EvaluationURI + evaluation.id} {...props}>{evaluation.name}</ProxyLink>
+    return <ProxyLink to={EvaluationURI + evaluation.id} {...props}>{evaluation.exam.name}</ProxyLink>
 }

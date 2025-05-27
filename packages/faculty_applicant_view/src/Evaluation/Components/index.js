@@ -5,5 +5,5 @@ export * from './EvaluationLargeCard'
 export * from './EvaluationLink'
 export * from './EvaluationMediumContent'
 export * from './EvaluationMediumCard'
-
+export * from './EvaluationList'
 export * from './EvaluationMediumEditableContent'
