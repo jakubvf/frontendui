@@ -4,6 +4,7 @@ import { ListGroup, Button } from "react-bootstrap"
 import { StudentDocumentButton } from "."
 
 export const StudentDocumentList = ({ documents, studentId, onUpdate, isEditMode = false }) => {
+    console.log(studentId);
     return (
         <ListGroup >
             {documents.map(document => (

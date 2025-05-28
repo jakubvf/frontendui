@@ -3,10 +3,14 @@ import {
       RouterProvider
 } from "react-router-dom";
 
-import { UserRouterSegment } from '@jakubvf/uoisfrontend-faculty_applicant_view';
+import { UserRouterSegment, DocumentGenerator } from '@jakubvf/uoisfrontend-faculty_applicant_view';
 
 export const Routes = [
   UserRouterSegment,
+  {
+    path: '/',
+    element: <DocumentGenerator />
+  }
 ]
 
 // const router = createBrowserRouter(Routes, {basename: "/ug"});

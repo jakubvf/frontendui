@@ -47,7 +47,7 @@ export const StudyApplicationCard = ({ study, documents, evaluations, onUpdate, 
                         <strong>Požadovaná částka:</strong> {study.payment.paymentInfo.amount} Kč
                     </ListGroup.Item>
                 </ListGroup>
-
+                <Card.Title className="mt-3">Nahrané dokumenty</Card.Title>
                 <StudentDocumentList
                     documents={documents.filter(doc => doc.student.id === study.id)}
                     studentId={study.id}
