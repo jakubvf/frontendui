@@ -74,28 +74,26 @@ const UserPageContentLazy = ({ user, isEditMode = false }) => {
     }
 
     const handleUpdate = async () => {
-        await fetchUser()
-        await fetchDocs()
-        await fetchEvals()
+        await Promise.all([fetchUser(), fetchDocs(), fetchEvals()])
     }
 
-    if (userLoading) return <LoadingSpinner />
-    if (docLoading) return <LoadingSpinner />
-    if (evalLoading) return <LoadingSpinner />
-    if (userError) return <ErrorHandler errors={userError} />
-    if (docError) return <ErrorHandler errors={docError} />
-    if (evalError) return <ErrorHandler errors={evalError} />
-    if (!entity) return null
-
-    return <UserPageContent 
-        user={entity} 
-        onChange={handleChange} 
-        onBlur={handleBlur} 
-        fetch={handleUpdate}
-        documents={docResult?.data?.result || []}
-        evaluations={evalResult?.data?.result || []}
-        isEditMode={isEditMode}
-    />
+    return <>
+        {userLoading && <LoadingSpinner />}
+        {docLoading && <LoadingSpinner />}
+        {evalLoading && <LoadingSpinner />}
+        {userError && <ErrorHandler errors={userError} />}
+        {docError && <ErrorHandler errors={docError} />}
+        {evalError && <ErrorHandler errors={evalError} />}
+        {entity && <UserPageContent
+            user={entity}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            fetch={handleUpdate}
+            documents={docResult?.data?.result || []}
+            evaluations={evalResult?.data?.result || []}
+            isEditMode={isEditMode}
+        />}
+    </>
 }
 
 /**

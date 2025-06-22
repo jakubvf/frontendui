@@ -29,6 +29,8 @@ export const StudyApplicationCard = ({ study, documents, evaluations, onUpdate, 
                 </div>
             </Card.Header>
             <Card.Body>
+            {study.id}
+
                 <Card.Title>Platba</Card.Title>
                 <ListGroup>
                     <ListGroup.Item className="d-flex justify-content-between align-items-center">
