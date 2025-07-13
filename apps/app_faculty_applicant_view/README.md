@@ -1,17 +1,5 @@
 # Zobrazení uchazeče správním orgánem
 
-- [x] Podané přihlášky uchazeče a jejich stav
-- [x] Platby uchazeče
-- [x] Výsledky uchazeče
-- [ ] Doložené dokumenty
-- [x] Splnění stanovených termínů
-
-GQL modely:
-- UserGQLModel
-- StudentGQLModel
-- PaymentGQLModel
-- AdmissionGQLModel
-
 Hodnocení
 -	Absolvování jednoho projektového dne (součástí je commit na github ne starší než 1 týden) 5 b (x3, tj. 15 b), pod omluvě lze nahradit individuálně
 -	Příběh / deníček (na githubu) ve formátu md ReadME.md (markdown) 5 b součástí příběhu musí být, za chybějící prvek snížení počtu bodů
@@ -90,6 +78,17 @@ Hodnocení
 
 - **4edd23f** - Refactor UserPage and related components
   - Refaktoring komponent souvisejících s uživatelskými stránkami
+
+- **13b3a45** - Update README.md
+  - Aktualizace dokumentace projektu
+
+- **23498c3** - Smazat všechny checksum.txt
+  - Odstranění redundantních checksum souborů
+
+- **873b102** - Zlepšit dokumentaci
+  - Vylepšení JSDoc dokumentace napříč všemi komponenty
+  - Přidání standardizovaných komentářů podle JSDoc konvencí
+  - Dokumentace pro komponenty, async actions a moduly
 
 ### Definice problémů k vyřešení
 
