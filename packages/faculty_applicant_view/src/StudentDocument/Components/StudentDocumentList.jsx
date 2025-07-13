@@ -1,4 +1,3 @@
-import { ErrorHandler, LoadingSpinner } from "@hrbolek/uoisfrontend-shared"
 import { StudentdocumentLink } from "."
 import { ListGroup, Button } from "react-bootstrap"
 import { StudentDocumentButton } from "."
@@ -26,8 +25,8 @@ import { StudentDocumentButton } from "."
  *
  * @example
  * // With edit mode enabled
- * <StudentDocumentList 
- *   documents={studentDocs} 
+ * <StudentDocumentList
+ *   documents={studentDocs}
  *   studentId="123"
  *   isEditMode={true}
  *   onUpdate={(data) => refreshDocuments()}
