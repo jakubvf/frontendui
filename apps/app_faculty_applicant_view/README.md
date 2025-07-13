@@ -82,6 +82,32 @@ Hodnocení
 - **13b3a45** - Update README.md
   - Aktualizace dokumentace projektu
 
+#### Červenec 2025
+- **1615be1** - Přidat počety v StudyApplicationCard a StudyApplicationList
+  - Implementace zobrazení počtu přihlášek ve StudyApplicationCard
+  - Přidání počítání přihlášek do StudyApplicationList
+
+- **cde6478** - Drag&drop pro StudentDocument
+  - Implementace drag and drop funkcionality pro práci s dokumenty studentů
+
+- **39bfd6e** - Badge alignment v StudyApplicationCard
+  - Vylepšení zarovnání badge elementů v kartě přihlášky
+
+- **5e24e8e** - Extract Payment info to a new component
+  - Extrakce platebních informací do samostatné komponenty
+
+- **2ce006c** - Přesunout content z UserMediumCard do UserMediumContent
+  - Refaktoring obsahu z UserMediumCard do UserMediumContent komponenty
+
+- **39ff0c2** - Spread syntax pro isEditMode
+  - Implementace spread syntaxe pro isEditMode vlastnost
+
+- **0ecdb5a** - Přidat komentář o nefungujícím query
+  - Dokumentace problematických GraphQL queries
+
+- **862fa7a** - Zlepšit dokumentaci
+  - Vylepšení JSDoc dokumentace napříč komponenty
+
 - **23498c3** - Smazat všechny checksum.txt
   - Odstranění redundantních checksum souborů
 
@@ -103,7 +129,7 @@ Hodnocení
 3. **Správa dokumentů**
    - Implementace nahrávání, zobrazování a mazání dokumentů
 
-4. **Platební systém**
+4. **Plateby**
    - Implementace sledování plateb uchazečů
 
 ### Co jsem objevil
