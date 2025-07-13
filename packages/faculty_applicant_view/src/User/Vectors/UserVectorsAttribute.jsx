@@ -27,7 +27,7 @@ import { InfiniteScroll } from "@hrbolek/uoisfrontend-shared"
  *
  * <UserVectorsAttribute user={userEntity} />
  */
-export const UserVectorsAttribute = ({user}) => {
+export const UserVectorsAttribute = ({user, ...props}) => {
     const { vectors } = user
     if (typeof vectors === 'undefined') return null
     return (
@@ -60,7 +60,7 @@ const VectorsAttributeAsyncAction = createAsyncGraphQLAction(
     processVectorAttributeFromGraphQLResult("vectors")
 )
 
-export const UserVectorsAttributeInifite = ({user}) => { 
+export const UserVectorsAttributeInifite = ({user, ...props}) => { 
     const {vectors} = user
 
     return (

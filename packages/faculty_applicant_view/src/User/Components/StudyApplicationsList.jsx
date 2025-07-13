@@ -12,7 +12,7 @@ import { StudyApplicationCard } from "./StudyApplicationCard"
  * @param {Function} props.onUpdate - Callback function when data needs to be refreshed
  * @returns {JSX.Element} Rendered component
  */
-export const StudyApplicationsList = ({ studies, documents, evaluations, onUpdate, isEditMode = false }) => {
+export const StudyApplicationsList = ({ studies, documents, evaluations, onUpdate, ...props }) => {
     return (
         <>
             <Card.Title>Podané přihlášky</Card.Title>
@@ -23,7 +23,7 @@ export const StudyApplicationsList = ({ studies, documents, evaluations, onUpdat
                     documents={documents}
                     evaluations={evaluations}
                     onUpdate={onUpdate}
-                    isEditMode={isEditMode}
+                    {...props}
                 />
             ))}
         </>

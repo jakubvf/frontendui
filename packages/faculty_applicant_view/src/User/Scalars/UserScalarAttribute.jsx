@@ -18,7 +18,7 @@
  *
  * <UserScalarAttribute user={userEntity} />
  */
-export const UserScalarAttribute = ({user}) => {
+export const UserScalarAttribute = ({user, ...props}) => {
     const {scalar} = user
     if (typeof scalar === 'undefined') return null
     return (
