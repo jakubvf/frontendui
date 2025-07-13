@@ -61,7 +61,7 @@ export const StudentDocumentList = ({ documents, studentId, onUpdate, isEditMode
                 </ListGroup.Item>
             ))}
             {isEditMode && (
-                <ListGroup.Item>
+                <ListGroup.Item style={{ display: 'flex', justifyContent: 'center' }}>
                     <StudentDocumentButton
                         operation="C"
                         studentdocument={{ studentId: studentId }}

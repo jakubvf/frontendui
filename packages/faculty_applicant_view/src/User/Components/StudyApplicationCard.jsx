@@ -24,7 +24,14 @@ export const StudyApplicationCard = ({ study, documents, evaluations, onUpdate, 
                 </div>
             </Card.Header>
             <Card.Body>
-              <Card.Title>Platba</Card.Title>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Card.Title className="mt-3">Platba</Card.Title>
+                <div>
+                  {study.payment.amount >= study.payment.paymentInfo.amount && <Badge bg="success">Zaplaceno</Badge>}
+                  {study.payment.amount < study.payment.paymentInfo.amount && <Badge bg="danger">Nezaplaceno</Badge>}
+                </div>
+              </div>
+
               <StudentPayment
                   payment={study.payment}
                   onUpdate={onUpdate}
@@ -39,6 +46,7 @@ export const StudyApplicationCard = ({ study, documents, evaluations, onUpdate, 
               />
               <Card.Title className="mt-3">Výsledky přijmacího řízení</Card.Title>
               <EvaluationList evaluations={evaluations} />
+
             </Card.Body>
         </Card>
     )

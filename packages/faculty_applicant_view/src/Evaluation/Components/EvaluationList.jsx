@@ -37,10 +37,12 @@ export const EvaluationList = ({ evaluations, onUpdate, isEditMode = false }) =>
     return (
         <ListGroup>
             {evaluations.map(evaluation => (
-                <ListGroup.Item key={evaluation.id}>
+                <ListGroup.Item key={evaluation.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <EvaluationLink evaluation={evaluation} />
-                    {evaluation.passed && <Badge style={{ marginLeft: '10px' }} bg="success">Uspěl</Badge>}
-                    {!evaluation.passed && <Badge style={{ marginLeft: '10px' }} bg="danger">Neuspěl</Badge>}
+                    <div>
+                        {evaluation.passed && <Badge bg="success">Uspěl</Badge>}
+                        {!evaluation.passed && <Badge bg="danger">Neuspěl</Badge>}
+                    </div>
                     {isEditMode && (
                         <>
                             <EvaluationButton

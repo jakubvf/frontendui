@@ -1,4 +1,4 @@
-import { Card, ListGroup } from "react-bootstrap"
+import { Badge, ListGroup } from "react-bootstrap"
 import Button from 'react-bootstrap/Button'
 import { PaymentButton } from "../../Payment/Components"
 
