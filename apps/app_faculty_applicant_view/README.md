@@ -93,7 +93,7 @@ Hodnocení
 ### Definice problémů k vyřešení
 
 1. **Zobrazení uchazeče správním orgánem**
-   - Potřeba vytvořit komplexní rozhraní pro správu uchazečů
+   - Potřeba vytvořit rozhraní pro správu uchazečů
    - Požadavky: podané přihlášky, platby, výsledky, dokumenty, termíny
 
 2. **Integrace s GraphQL**
@@ -102,11 +102,9 @@ Hodnocení
 
 3. **Správa dokumentů**
    - Implementace nahrávání, zobrazování a mazání dokumentů
-   - Bezpečné zpracování souborů
 
 4. **Platební systém**
    - Implementace sledování plateb uchazečů
-   - Správné zpracování finančních dat
 
 ### Co jsem objevil
 

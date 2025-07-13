@@ -3,7 +3,7 @@ import { StudyApplicationCard } from "./StudyApplicationCard"
 
 /**
  * Displays a list of study applications for a user.
- * 
+ *
  * @component
  * @param {Object} props - Component props
  * @param {Array<Object>} props.studies - Array of study applications
@@ -13,7 +13,6 @@ import { StudyApplicationCard } from "./StudyApplicationCard"
  * @returns {JSX.Element} Rendered component
  */
 export const StudyApplicationsList = ({ studies, documents, evaluations, onUpdate, isEditMode = false }) => {
-    console.log("StudyApplicationsList.isEditMode", isEditMode)
     return (
         <>
             <Card.Title>Podané přihlášky</Card.Title>
@@ -29,4 +28,4 @@ export const StudyApplicationsList = ({ studies, documents, evaluations, onUpdat
             ))}
         </>
     )
-} 
+}
