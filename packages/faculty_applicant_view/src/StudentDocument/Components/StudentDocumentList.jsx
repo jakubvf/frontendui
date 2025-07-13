@@ -1,6 +1,7 @@
 import { StudentdocumentLink } from "."
 import { ListGroup, Button } from "react-bootstrap"
 import { StudentDocumentButton } from "."
+import { useState, useRef } from "react"
 
 /**
  * StudentDocumentList Component
@@ -33,8 +34,76 @@ import { StudentDocumentButton } from "."
  * />
  */
 export const StudentDocumentList = ({ documents, studentId, onUpdate, isEditMode = false }) => {
+    const [isDragOver, setIsDragOver] = useState(false)
+    const [draggedFile, setDraggedFile] = useState(null)
+    const createButtonRef = useRef(null)
+
+    const handleDragOver = (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        if (!isEditMode) return
+        setIsDragOver(true)
+    }
+
+    const handleDragEnter = (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        if (!isEditMode) return
+        setIsDragOver(true)
+    }
+
+    const handleDragLeave = (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        if (!isEditMode) return
+        if (!e.currentTarget.contains(e.relatedTarget)) {
+            setIsDragOver(false)
+        }
+    }
+
+    const handleDrop = (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        if (!isEditMode) return
+        
+        setIsDragOver(false)
+        
+        const files = Array.from(e.dataTransfer.files)
+        if (files.length > 0) {
+            const file = files[0]
+            setDraggedFile({
+                name: file.name,
+                description: `Uploaded file: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`,
+                studentId: studentId
+            })
+            
+            // Trigger the create button click
+            if (createButtonRef.current) {
+                createButtonRef.current.click()
+            }
+        }
+    }
+
+    const handleCreateDone = (result) => {
+        setDraggedFile(null)
+        if (onUpdate) {
+            onUpdate(result)
+        }
+    }
+
     return (
-        <ListGroup >
+        <ListGroup 
+            onDragOver={handleDragOver}
+            onDragEnter={handleDragEnter}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            style={{
+                transition: 'all 0.2s ease',
+                border: isDragOver ? '2px dashed #007bff' : '1px solid #dee2e6',
+                backgroundColor: isDragOver ? '#f8f9fa' : 'transparent',
+                borderRadius: '0.375rem'
+            }}
+        >
             {documents.map(document => (
                 <ListGroup.Item key={document.id} className="d-flex justify-content-between align-items-center">
                     <StudentdocumentLink studentdocument={document} />
@@ -61,13 +130,20 @@ export const StudentDocumentList = ({ documents, studentId, onUpdate, isEditMode
                 </ListGroup.Item>
             ))}
             {isEditMode && (
-                <ListGroup.Item style={{ display: 'flex', justifyContent: 'center' }}>
+                <ListGroup.Item style={{ 
+                    display: 'flex', 
+                    justifyContent: 'center',
+                    backgroundColor: isDragOver ? '#e7f3ff' : 'transparent'
+                }}>
                     <StudentDocumentButton
+                        ref={createButtonRef}
                         operation="C"
-                        studentdocument={{ studentId: studentId }}
-                        onDone={onUpdate}
+                        studentdocument={draggedFile || { studentId: studentId }}
+                        onDone={handleCreateDone}
                     >
-                        <Button variant="outline-success" size="sm">Přidat dokument</Button>
+                        <Button variant="outline-success" size="sm">
+                            {isDragOver ? 'Přetáhněte soubor sem' : 'Přidat dokument'}
+                        </Button>
                     </StudentDocumentButton>
                 </ListGroup.Item>
             )}

@@ -1,4 +1,5 @@
 import { ButtonWithDialog, ErrorHandler, LoadingSpinner } from "@hrbolek/uoisfrontend-shared";
+import { forwardRef } from "react";
 
 import { useAsyncAction } from "@hrbolek/uoisfrontend-gql-shared";
 import { StudentdocumentDeleteAsyncAction, StudentdocumentInsertAsyncAction, StudentdocumentUpdateAsyncAction } from "../Queries";
@@ -68,7 +69,7 @@ import { DocumentInsertAsyncAction } from "../../Document/Queries";
  *
  * @returns {JSX.Element} The dynamically selected button component for the specified operation.
  */
-export const StudentDocumentButton = ({ operation, children, studentdocument, onDone = () => { }, ...props }) => {
+export const StudentDocumentButton = forwardRef(({ operation, children, studentdocument, onDone = () => { }, ...props }, ref) => {
     const operationConfig = {
         C: {
             asyncAction: StudentdocumentInsertAsyncAction,
@@ -149,6 +150,7 @@ export const StudentDocumentButton = ({ operation, children, studentdocument, on
         {error && <ErrorHandler errors={error} />}
         {loading && <LoadingSpinner text={loadingMsg} />}
         <ButtonWithDialog
+            ref={ref}
             buttonLabel={children}
             dialogTitle={dialogTitle}
             {...props}
@@ -158,7 +160,7 @@ export const StudentDocumentButton = ({ operation, children, studentdocument, on
             {renderContent()}
         </ButtonWithDialog>
     </>);
-};
+});
 
 // // Prop validation using PropTypes
 // StudentdocumentCUDButton.propTypes = {

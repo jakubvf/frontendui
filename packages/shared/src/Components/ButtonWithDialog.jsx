@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, forwardRef } from 'react'
 import { Dialog } from './Dialog';
 import { ChildWrapper } from '../ComponentManagement';
 
@@ -118,7 +118,7 @@ import { ChildWrapper } from '../ComponentManagement';
  *
  * @returns {JSX.Element} A button that opens a dialog with customizable content.
  */
-export const ButtonWithDialog = ({
+export const ButtonWithDialog = forwardRef(({
     buttonLabel = "Provést",
     dialogTitle = "Potvrďte akci",
     oklabel = "Ok",
@@ -128,7 +128,7 @@ export const ButtonWithDialog = ({
     params = {},
     children,
     ...props
-}) => {
+}, ref) => {
     const [showDialog, setShowDialog] = useState(false);
     const [state, setState] = useState({});
 
@@ -166,7 +166,7 @@ export const ButtonWithDialog = ({
     };
 
     return (<>
-        <span {...props} onClick={handleButtonClick}>
+        <span ref={ref} {...props} onClick={handleButtonClick}>
             {buttonLabel}
         </span>
         
@@ -185,4 +185,4 @@ export const ButtonWithDialog = ({
             </ChildWrapper>
         </Dialog>}
     </>);
-};
+});
