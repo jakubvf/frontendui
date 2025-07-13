@@ -15,7 +15,7 @@ import { StudyApplicationCard } from "./StudyApplicationCard"
 export const StudyApplicationsList = ({ studies, documents, evaluations, onUpdate, ...props }) => {
     return (
         <>
-            <Card.Title>Podané přihlášky</Card.Title>
+            <Card.Title>Podané přihlášky ({studies.length})</Card.Title>
             {studies.map((study, index) => (
                 <StudyApplicationCard
                     key={index}

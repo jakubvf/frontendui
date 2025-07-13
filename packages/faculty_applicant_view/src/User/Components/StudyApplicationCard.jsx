@@ -37,14 +37,14 @@ export const StudyApplicationCard = ({ study, documents, evaluations, onUpdate, 
                   onUpdate={onUpdate}
                   {... props}
               />
-              <Card.Title className="mt-3">Nahrané dokumenty</Card.Title>
+              <Card.Title className="mt-3">Nahrané dokumenty ({documents.filter(doc => doc.student.id === study.id).length})</Card.Title>
               <StudentDocumentList
                   documents={documents.filter(doc => doc.student.id === study.id)}
                   studentId={study.id}
                   onUpdate={onUpdate}
                   {...props}
               />
-              <Card.Title className="mt-3">Výsledky přijmacího řízení</Card.Title>
+              <Card.Title className="mt-3">Výsledky přijmacího řízení ({evaluations.length})</Card.Title>
               <EvaluationList evaluations={evaluations} />
 
             </Card.Body>
