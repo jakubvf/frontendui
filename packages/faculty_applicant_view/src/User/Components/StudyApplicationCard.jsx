@@ -24,6 +24,8 @@ export const StudyApplicationCard = ({ study, documents, evaluations, onUpdate, 
                 </div>
             </Card.Header>
             <Card.Body>
+              {study.id}
+
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Card.Title className="mt-3">Platba</Card.Title>
                 <div>

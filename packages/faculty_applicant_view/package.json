@@ -3,16 +3,19 @@
   "version": "0.0.2",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs": "jsdoc -c jsdoc.json"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "react-bootstrap-icons": "^1.11.5",
-    "react-router": "^7.0.2",
-
+    "@hrbolek/uoisfrontend-gql-shared": "*",
     "@hrbolek/uoisfrontend-shared": "*",
-    "@hrbolek/uoisfrontend-gql-shared": "*"
+    "react-bootstrap-icons": "^1.11.5",
+    "react-router": "^7.0.2"
+  },
+  "devDependencies": {
+    "jsdoc": "^4.0.4"
   }
 }

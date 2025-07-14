@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: User/Pages/UserPage.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: User/Pages/UserPage.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useState } from "react"
+import { useParams } from "react-router"
+
+import { CreateDelayer, ErrorHandler, LoadingSpinner } from "@hrbolek/uoisfrontend-shared"
+import { useAsyncAction } from "@hrbolek/uoisfrontend-gql-shared"
+import { UserLargeCard } from "../Components"
+import { UserReadAsyncAction } from "../Queries"
+import { UserPageNavbar } from "./UserPageNavbar"
+import { StudentdocumentReadPageAsyncAction } from "../../StudentDocument/Queries"
+
+import { StudyApplicationsList } from "../Components/StudyApplicationsList"
+import { EvaluationReadPageAsyncAction } from "../../Evaluation/Queries"
+
+/**
+ * Displays detailed information about a user's applications and related documents.
+ *
+ * @component
+ * @param {Object} props - Component props
+ * @param {Object} props.user - User entity data
+ * @param {string} props.user.id - User's unique identifier
+ * @param {string} props.user.name - User's name
+ * @param {Array&lt;Object>} props.user.studies - Array of study applications
+ * @param {Array&lt;Object>} props.documents - Array of student documents
+ * @param {boolean} props.documentsLoading - Loading state for documents
+ * @param {Error} props.documentsError - Error state for documents
+ * @param {Function} props.fetch - Function to refetch data
+ * @returns {JSX.Element} Rendered component
+ */
+const UserPageContent = ({ user, fetch, documents, evaluations, ...props }) => {
+    return (
+        &lt;>
+            &lt;UserPageNavbar user={user} />
+            &lt;UserLargeCard user={user}>
+                &lt;StudyApplicationsList
+                    studies={user.studies}
+                    documents={documents}
+                    evaluations={evaluations}
+                    onUpdate={fetch}
+                    {...props}
+                />
+            &lt;/UserLargeCard>
+        &lt;/>
+    )
+}
+
+/**
+ * Lazy-loading wrapper component for UserPageContent that handles data fetching.
+ *
+ * @component
+ * @param {Object} props - Component props
+ * @param {Object} props.user - User identifier object
+ * @param {string} props.user.id - User's unique identifier
+ * @param {boolean} props.isEditMode - Whether the page is in edit mode
+ * @returns {JSX.Element} Component that fetches and displays user data
+ */
+const UserPageContentLazy = ({ user, ...props }) => {
+    const { error: userError, loading: userLoading, entity, fetch: fetchUser } = useAsyncAction(UserReadAsyncAction, user)
+    const { error: docError, loading: docLoading, dispatchResult: docResult, fetch: fetchDocs } = useAsyncAction(StudentdocumentReadPageAsyncAction, {})
+    const { error: evalError, loading: evalLoading, dispatchResult: evalResult, fetch: fetchEvals } = useAsyncAction(EvaluationReadPageAsyncAction, {})
+    const [delayer] = useState(() => CreateDelayer())
+
+    const handleChange = async (e) => {
+        const data = e.target.value
+        await delayer(() => fetchUser(data))
+    }
+
+    const handleBlur = async (e) => {
+        const data = e.target.value
+        await delayer(() => fetchUser(data))
+    }
+
+    const handleUpdate = async () => {
+        await Promise.all([fetchUser(), fetchDocs(), fetchEvals()])
+    }
+
+    return &lt;>
+        {userLoading &amp;&amp; &lt;LoadingSpinner />}
+        {docLoading &amp;&amp; &lt;LoadingSpinner />}
+        {evalLoading &amp;&amp; &lt;LoadingSpinner />}
+        {userError &amp;&amp; &lt;ErrorHandler errors={userError} />}
+        {docError &amp;&amp; &lt;ErrorHandler errors={docError} />}
+        {evalError &amp;&amp; &lt;ErrorHandler errors={evalError} />}
+        {entity &amp;&amp; &lt;UserPageContent
+            user={entity}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            fetch={handleUpdate}
+            documents={docResult?.data?.result || []}
+            evaluations={evalResult?.data?.result || []}
+            {...props}
+        />}
+    &lt;/>
+}
+
+/**
+ * Main page component that displays user information based on URL parameters.
+ *
+ * @component
+ * @param {Object} props - Component props
+ * @param {boolean} props.isEditMode - Whether the page is in edit mode
+ * @returns {JSX.Element} The rendered user page component
+ */
+export const UserPage = (props) => {
+    const { id } = useParams()
+    const user = { id }
+    return &lt;UserPageContentLazy user={user} {...props} />
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-DocumentComponents.html">DocumentComponents</a></li><li><a href="module-DocumentQueries.html">DocumentQueries</a></li><li><a href="module-FacultyApplicantView.html">FacultyApplicantView</a></li></ul><h3>Global</h3><ul><li><a href="global.html#DocumentButton">DocumentButton</a></li><li><a href="global.html#DocumentCardCapsule">DocumentCardCapsule</a></li><li><a href="global.html#DocumentChildren">DocumentChildren</a></li><li><a href="global.html#DocumentDeleteAsyncAction">DocumentDeleteAsyncAction</a></li><li><a href="global.html#DocumentGenerator">DocumentGenerator</a></li><li><a href="global.html#DocumentLargeCard">DocumentLargeCard</a></li><li><a href="global.html#DocumentLink">DocumentLink</a></li><li><a href="global.html#DocumentMediumCard">DocumentMediumCard</a></li><li><a href="global.html#DocumentMediumContent">DocumentMediumContent</a></li><li><a href="global.html#DocumentMediumEditableContent">DocumentMediumEditableContent</a></li><li><a href="global.html#DocumentPage">DocumentPage</a></li><li><a href="global.html#DocumentPageContent">DocumentPageContent</a></li><li><a href="global.html#DocumentPageContentLazy">DocumentPageContentLazy</a></li><li><a href="global.html#DocumentPageNavbar">DocumentPageNavbar</a></li><li><a href="global.html#DocumentReadAsyncAction">DocumentReadAsyncAction</a></li><li><a href="global.html#DocumentRouterSegment">DocumentRouterSegment</a></li><li><a href="global.html#DocumentScalarAttribute">DocumentScalarAttribute</a></li><li><a href="global.html#DocumentVectorsAttribute">DocumentVectorsAttribute</a></li><li><a href="global.html#EvaluationButton">EvaluationButton</a></li><li><a href="global.html#EvaluationCardCapsule">EvaluationCardCapsule</a></li><li><a href="global.html#EvaluationChildren">EvaluationChildren</a></li><li><a href="global.html#EvaluationLargeCard">EvaluationLargeCard</a></li><li><a href="global.html#EvaluationLink">EvaluationLink</a></li><li><a href="global.html#EvaluationList">EvaluationList</a></li><li><a href="global.html#EvaluationMediumCard">EvaluationMediumCard</a></li><li><a href="global.html#EvaluationMediumContent">EvaluationMediumContent</a></li><li><a href="global.html#EvaluationMediumEditableContent">EvaluationMediumEditableContent</a></li><li><a href="global.html#EvaluationPage">EvaluationPage</a></li><li><a href="global.html#EvaluationPageContent">EvaluationPageContent</a></li><li><a href="global.html#EvaluationPageContentLazy">EvaluationPageContentLazy</a></li><li><a href="global.html#EvaluationPageNavbar">EvaluationPageNavbar</a></li><li><a href="global.html#EvaluationReadAsyncAction">EvaluationReadAsyncAction</a></li><li><a href="global.html#EvaluationRouterSegment">EvaluationRouterSegment</a></li><li><a href="global.html#EvaluationScalarAttribute">EvaluationScalarAttribute</a></li><li><a href="global.html#EvaluationVectorsAttribute">EvaluationVectorsAttribute</a></li><li><a href="global.html#NewDocumentPage">NewDocumentPage</a></li><li><a href="global.html#PaymentButton">PaymentButton</a></li><li><a href="global.html#PaymentCardCapsule">PaymentCardCapsule</a></li><li><a href="global.html#PaymentChildren">PaymentChildren</a></li><li><a href="global.html#PaymentLargeCard">PaymentLargeCard</a></li><li><a href="global.html#PaymentLink">PaymentLink</a></li><li><a href="global.html#PaymentMediumCard">PaymentMediumCard</a></li><li><a href="global.html#PaymentMediumContent">PaymentMediumContent</a></li><li><a href="global.html#PaymentMediumEditableContent">PaymentMediumEditableContent</a></li><li><a href="global.html#PaymentPage">PaymentPage</a></li><li><a href="global.html#PaymentPageContent">PaymentPageContent</a></li><li><a href="global.html#PaymentPageContentLazy">PaymentPageContentLazy</a></li><li><a href="global.html#PaymentPageNavbar">PaymentPageNavbar</a></li><li><a href="global.html#PaymentReadAsyncAction">PaymentReadAsyncAction</a></li><li><a href="global.html#PaymentRouterSegment">PaymentRouterSegment</a></li><li><a href="global.html#PaymentScalarAttribute">PaymentScalarAttribute</a></li><li><a href="global.html#PaymentVectorsAttribute">PaymentVectorsAttribute</a></li><li><a href="global.html#StudentDocumentButton">StudentDocumentButton</a></li><li><a href="global.html#StudentDocumentList">StudentDocumentList</a></li><li><a href="global.html#StudentPayment">StudentPayment</a></li><li><a href="global.html#StudentdocumentCardCapsule">StudentdocumentCardCapsule</a></li><li><a href="global.html#StudentdocumentChildren">StudentdocumentChildren</a></li><li><a href="global.html#StudentdocumentLargeCard">StudentdocumentLargeCard</a></li><li><a href="global.html#StudentdocumentLink">StudentdocumentLink</a></li><li><a href="global.html#StudentdocumentMediumCard">StudentdocumentMediumCard</a></li><li><a href="global.html#StudentdocumentMediumContent">StudentdocumentMediumContent</a></li><li><a href="global.html#StudentdocumentMediumEditableContent">StudentdocumentMediumEditableContent</a></li><li><a href="global.html#StudentdocumentPage">StudentdocumentPage</a></li><li><a href="global.html#StudentdocumentPageContent">StudentdocumentPageContent</a></li><li><a href="global.html#StudentdocumentPageContentLazy">StudentdocumentPageContentLazy</a></li><li><a href="global.html#StudentdocumentPageNavbar">StudentdocumentPageNavbar</a></li><li><a href="global.html#StudentdocumentReadAsyncAction">StudentdocumentReadAsyncAction</a></li><li><a href="global.html#StudentdocumentRouterSegment">StudentdocumentRouterSegment</a></li><li><a href="global.html#StudentdocumentScalarAttribute">StudentdocumentScalarAttribute</a></li><li><a href="global.html#StudentdocumentVectorsAttribute">StudentdocumentVectorsAttribute</a></li><li><a href="global.html#StudyApplicationCard">StudyApplicationCard</a></li><li><a href="global.html#StudyApplicationsList">StudyApplicationsList</a></li><li><a href="global.html#TitleNavButton">TitleNavButton</a></li><li><a href="global.html#UserButton">UserButton</a></li><li><a href="global.html#UserCardCapsule">UserCardCapsule</a></li><li><a href="global.html#UserChildren">UserChildren</a></li><li><a href="global.html#UserLargeCard">UserLargeCard</a></li><li><a href="global.html#UserLink">UserLink</a></li><li><a href="global.html#UserMediumCard">UserMediumCard</a></li><li><a href="global.html#UserMediumContent">UserMediumContent</a></li><li><a href="global.html#UserMediumEditableContent">UserMediumEditableContent</a></li><li><a href="global.html#UserPage">UserPage</a></li><li><a href="global.html#UserPageContent">UserPageContent</a></li><li><a href="global.html#UserPageContentLazy">UserPageContentLazy</a></li><li><a href="global.html#UserPageNavbar">UserPageNavbar</a></li><li><a href="global.html#UserReadAsyncAction">UserReadAsyncAction</a></li><li><a href="global.html#UserRouterSegment">UserRouterSegment</a></li><li><a href="global.html#UserScalarAttribute">UserScalarAttribute</a></li><li><a href="global.html#UserVectorsAttribute">UserVectorsAttribute</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Jul 14 2025 08:37:47 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
