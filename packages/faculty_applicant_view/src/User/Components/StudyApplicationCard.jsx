@@ -45,7 +45,7 @@ export const StudyApplicationCard = ({ study, documents, evaluations, onUpdate, 
                   {...props}
               />
               <Card.Title className="mt-3">Výsledky přijmacího řízení ({evaluations.length})</Card.Title>
-              <EvaluationList evaluations={evaluations} />
+              <EvaluationList evaluations={evaluations} {...props} />
 
             </Card.Body>
         </Card>

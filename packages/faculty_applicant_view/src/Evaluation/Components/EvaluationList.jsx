@@ -38,18 +38,19 @@ export const EvaluationList = ({ evaluations, onUpdate, isEditMode = false }) =>
         <ListGroup>
             {evaluations.map(evaluation => (
                 <ListGroup.Item key={evaluation.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <EvaluationLink evaluation={evaluation} />
-                    <div>
-                        {evaluation.passed && <Badge bg="success">Uspěl</Badge>}
-                        {!evaluation.passed && <Badge bg="danger">Neuspěl</Badge>}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <EvaluationLink evaluation={evaluation} />
+                        <div>
+                            {evaluation.passed && <Badge bg="success">Uspěl</Badge>}
+                            {!evaluation.passed && <Badge bg="danger">Neuspěl</Badge>}
+                        </div>
                     </div>
                     {isEditMode && (
-                        <>
+                        <div style={{ display: 'flex', gap: '10px' }}>
                             <EvaluationButton
                                 operation="U"
                                 evaluation={evaluation}
                                 onDone={onUpdate}
-                                style={{ marginLeft: '10px' }}
                             >
                                 <Button variant="outline-primary" size="sm">Upravit</Button>
                             </EvaluationButton>
@@ -57,16 +58,15 @@ export const EvaluationList = ({ evaluations, onUpdate, isEditMode = false }) =>
                                 operation="D"
                                 evaluation={{ id: evaluation.id, lastchange: evaluation.lastchange }}
                                 onDone={onUpdate}
-                                style={{ marginLeft: '10px' }}
                             >
                                 <Button variant="outline-danger" size="sm">Smazat</Button>
                             </EvaluationButton>
-                        </>
+                        </div>
                     )}
                 </ListGroup.Item>
             ))}
             {isEditMode && (
-                <ListGroup.Item>
+                <ListGroup.Item style={{ display: 'flex', justifyContent: 'center' }}>
                     <EvaluationButton
                         operation="C"
                         evaluation={{ studentId: evaluations[0]?.studentId }}

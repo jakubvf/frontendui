@@ -9,13 +9,11 @@ import { UserPageNavbar } from "./UserPageNavbar"
 import { StudentdocumentReadPageAsyncAction } from "../../StudentDocument/Queries"
 
 import { StudyApplicationsList } from "../Components/StudyApplicationsList"
-import { UserScalarAttribute } from "../Scalars/UserScalarAttribute"
-import { UserVectorsAttribute } from "../Vectors/UserVectorsAttribute"
 import { EvaluationReadPageAsyncAction } from "../../Evaluation/Queries"
 
 /**
  * Displays detailed information about a user's applications and related documents.
- * 
+ *
  * @component
  * @param {Object} props - Component props
  * @param {Object} props.user - User entity data
@@ -33,8 +31,6 @@ const UserPageContent = ({ user, fetch, documents, evaluations, ...props }) => {
         <>
             <UserPageNavbar user={user} />
             <UserLargeCard user={user}>
-                <UserScalarAttribute user={user} {...props} />
-                <UserVectorsAttribute user={user} {...props} />
                 <StudyApplicationsList
                     studies={user.studies}
                     documents={documents}
@@ -49,7 +45,7 @@ const UserPageContent = ({ user, fetch, documents, evaluations, ...props }) => {
 
 /**
  * Lazy-loading wrapper component for UserPageContent that handles data fetching.
- * 
+ *
  * @component
  * @param {Object} props - Component props
  * @param {Object} props.user - User identifier object
@@ -98,7 +94,7 @@ const UserPageContentLazy = ({ user, ...props }) => {
 
 /**
  * Main page component that displays user information based on URL parameters.
- * 
+ *
  * @component
  * @param {Object} props - Component props
  * @param {boolean} props.isEditMode - Whether the page is in edit mode
