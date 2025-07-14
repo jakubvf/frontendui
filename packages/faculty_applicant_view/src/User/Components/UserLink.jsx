@@ -1,6 +1,7 @@
 import { ProxyLink } from "@hrbolek/uoisfrontend-shared"
 
 export const UserURI = '/faculty_applicants/user/view/';
+export const UserEditURI = '/faculty_applicants/user/edit/';
 
 /**
  * A React component that renders a `ProxyLink` to an "user" entity's view page.

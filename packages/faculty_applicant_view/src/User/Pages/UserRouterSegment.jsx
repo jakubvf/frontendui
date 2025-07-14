@@ -1,4 +1,4 @@
-import { UserURI } from "../Components/UserLink"
+import { UserURI, UserEditURI } from "../Components/UserLink"
 import { UserPage } from "./UserPage"
 
 /**
@@ -13,16 +13,13 @@ import { UserPage } from "./UserPage"
  * @property {string} path - The URL path pattern for the route, e.g., "/user/user/view/:id".
  * @property {JSX.Element} element - The React element (component) to render, in this case, <UserPage />.
  */
-export const UserRouterSegment = {
-    path: `/${UserURI}:id`,
-    children: [
-        {
-            path: '',
-            element: <UserPage isEditMode={false} />
-        },
-        {
-            path: 'edit',
-            element: <UserPage isEditMode={true} />
-        }
-    ]
-}
+export const UserRouterSegment = [
+    {
+        path: `${UserURI}:id`,
+        element: <UserPage isEditMode={false} />
+    },
+    {
+        path: `${UserEditURI}:id`,
+        element: <UserPage isEditMode={true} />
+    }
+]

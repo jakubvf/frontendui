@@ -6,7 +6,7 @@ import {
 import { UserRouterSegment, DocumentGenerator } from '@jakubvf/uoisfrontend-faculty_applicant_view';
 
 export const Routes = [
-  UserRouterSegment,
+  ...UserRouterSegment,
   {
     path: '/',
     element: <DocumentGenerator />
